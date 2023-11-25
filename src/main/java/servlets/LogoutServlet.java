@@ -9,6 +9,11 @@ import java.io.IOException;
 
 public class LogoutServlet extends HttpServlet {
 
+    /**
+     * Handles GET request to /logout
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();

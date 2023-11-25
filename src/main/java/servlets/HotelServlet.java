@@ -1,11 +1,9 @@
 package servlets;
 
 import hotelData.Hotel;
-import reviewData.Review;
 import server.DatabaseHandler;
 import thyemeleaf.ThymeLeafConfig;
 import thyemeleaf.ThymeLeafRenderer;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +14,11 @@ import java.util.List;
 
 public class HotelServlet extends HttpServlet {
 
+    /**
+     * Handles GET request to /hotels
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
@@ -28,6 +31,5 @@ public class HotelServlet extends HttpServlet {
         thymeleafRenderer.setVariable("hotels",hotels);
         thymeleafRenderer.render("hotel-list", out);
     }
-
 
 }
