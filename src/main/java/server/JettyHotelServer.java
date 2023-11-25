@@ -1,14 +1,6 @@
 package server;
 
-import hotelData.*;
-import reviewData.*;
-import servlets.HomeServlet;
-import servlets.HotelSearchServlet;
-import servlets.LoginServlet;
-import servlets.RegistrationServlet;
-
-import java.io.PrintWriter;
-import java.util.List;
+import servlets.*;
 
 public class JettyHotelServer {
 	public static final int PORT = 8080;
@@ -39,7 +31,11 @@ public class JettyHotelServer {
 		server.addMapping("/login", LoginServlet.class);
 		server.addMapping("/register", RegistrationServlet.class);
 		server.addMapping("/home", HomeServlet.class);
-		server.addMapping("/hotels", HotelSearchServlet.class);
+		server.addMapping("/hotelSearch", HotelSearchServlet.class);
+		server.addMapping("/hotels", HotelServlet.class);
+		server.addMapping("/hotelDetails", HotelDetailsServlet.class);
+		server.addMapping("/addReviews", AddReviewsServlet.class);
+		server.addMapping("/logout", LogoutServlet.class);
 		server.start();
 	}
 }
