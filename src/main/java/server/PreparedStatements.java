@@ -36,6 +36,9 @@ public class PreparedStatements {
     public static final String GET_REVIEWS_BY_HOTEL_ID=
             "SELECT * FROM reviews WHERE hotel_id = ?";
 
+    public static final String GET_REVIEWS_For_USER=
+            "SELECT * FROM reviews WHERE hotel_id = ? AND username=?";
+
     public static final String CREATE_REVIEWS_TABLE = "CREATE TABLE reviews(" +
             "review_id VARCHAR(64) NOT NULL, " +
             "overall_rating DOUBLE NOT NULL," +
@@ -52,6 +55,7 @@ public class PreparedStatements {
 
     public static final String GET_AVERAGE_REVIEWS = "SELECT avg(overall_rating) AS overall_rating FROM reviews WHERE hotel_id = ? GROUP BY hotel_id";
 
+    public static final String DELETE_REVIEW_FOR_USER = "DELETE FROM reviews where review_id=? AND hotel_id=?";
     /** Used to insert a new user into the database. */
     public static final String REGISTER_SQL =
             "INSERT INTO users (username, password, usersalt) " +
