@@ -34,7 +34,6 @@ public class DatabaseHandler {
     private DatabaseHandler(String propertiesFile) {
         this.config = loadConfigFile(propertiesFile);
         this.uri = "jdbc:mysql://" + config.getProperty("hostname") + "/" + config.getProperty("database") + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-        System.out.println("uri = " + uri);
     }
 
     /**
@@ -135,6 +134,22 @@ public class DatabaseHandler {
                 statement.close();
             } catch (SQLException e) {
                 System.out.println(e);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+    public void deleteReview(String reviewId,String hotelId) {
+        PreparedStatement statement;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            try {
+                statement = dbConnection.prepareStatement(PreparedStatements.DELETE_REVIEW_FOR_USER);
+                statement.setString(1, reviewId);
+                statement.setString(2, hotelId);
+                statement.executeUpdate();
+                statement.close();
+            } catch (Exception ex) {
+                System.out.println(ex);
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -313,6 +328,34 @@ public class DatabaseHandler {
                 String date = resultSet.getString("submission_date");
                 hotelId = resultSet.getString("hotel_id");
                 review = new Review(reviewId,rating,title,reviewText,userName,date.trim(),hotelId);
+                System.out.println(review.toString());
+                reviewList.add(review);
+            }
+            statement.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return  reviewList;
+    }
+
+    public List<Review> getReviewsForUser(String hotelId,String username){
+        PreparedStatement statement;
+        Review review = null;
+        List<Review> reviewList = new ArrayList<>();
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            statement = dbConnection.prepareStatement(PreparedStatements.GET_REVIEWS_For_USER);
+            statement.setString(1, hotelId);
+            statement.setString(2, username);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String reviewId = resultSet.getString("review_id");
+                double rating = (Double.parseDouble(resultSet.getString("overall_rating")));
+                String title = resultSet.getString("title");
+                String reviewText = resultSet.getString("review_text");
+                username = resultSet.getString("username");
+                String date = resultSet.getString("submission_date");
+                hotelId = resultSet.getString("hotel_id");
+                review = new Review(reviewId,rating,title,reviewText,username,date.trim(),hotelId);
                 System.out.println(review.toString());
                 reviewList.add(review);
             }
