@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="ISO-8859-1">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TravelHelper</title>
+    <head>
+        <meta charset="UTF-8">
+        <title>TravelHelper</title>
+    </head>
     <style>
         body {
             background: url ("/Images/library.jpeg") no-repeat center center fixed;
             background-size: cover;
             font-family: "Times New Roman", Times, serif;
-
         }
         .wrapper {
             padding-left: 500px;
             padding-top: 200px;
         }
         input[type=text],input[type=password], input[type=email], select, textarea {
-            width: 90%;
+            width: 70%;
             padding: 10px;
             border: 1px solid black;
             resize: vertical;
@@ -65,17 +64,6 @@
             width: 75%;
             margin-top: 6px;
         }
-        .row:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-        .incorrect{
-            color: red;
-        }
-        .logout{
-            color: green;
-        }
         .required::after {
             content: " *";
             color: red;
@@ -83,40 +71,34 @@
         h2 {
             text-align: center;
         }
+        .incorrect{
+	        color: red;
+        }
+        .correct{
+	        color: green;
+        }
     </style>
-</head>
-<body>
-<div class="wrapper">
-  <div class="container">
-    <h2>Login</h2>
-  <form method="post" action="/login">
-    <div th:if="${error}" class="alert alert-error">
-      <large class="incorrect">Invalid username and password.</large>
-    </div>
-    <div class="row">
-      <div class="col-25">
-        <label for="username">Username:<span class="required"></span></label>
-      </div>
-      <div class="col-75">
-        <input type="text" id="username" name="username" placeholder="Enter Username" required/>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-25">
-        <label for="password">Password:<span class="required"></span></label>
-      </div>
-      <div class="col-75">
-        <input type="password" id="password" name="password" placeholder="Enter Password" required />
-      </div>
-    </div>
-    <div class="form-actions">
-      <input type="submit" value="Login" class="button">
-    </div>
-  </form>
-    <form method="get" action="/register">
-      <input type="submit" value="Register" class="button">
-    </form>
-</div>
-</div>
-</body>
+    <body>
+        <div class="wrapper">
+            <div class="container">
+                <h2>Login</h2>
+                <form method="post" action="/login">
+                    <div th:if="${error}" class="alert alert-error">
+                        <large class="incorrect">Invalid username and password.</large>
+                    </div>
+                    <div th:if="${success}">
+                        <large class="correct">Registration done successfully! Please login to continue</large>
+                    </div>
+                        <label for="username">Username:<span class="required"></span></label>
+                        <input type="text" id="username" name="username" placeholder="Enter Username" required/>
+                        <label for="password">Password:<span class="required"></span></label>
+                        <input type="password" id="password" name="password" placeholder="Enter Password" required />
+                        <input type="submit" value="Login" class="button">
+                </form>
+                <form method="get" action="/register">
+                    <input type="submit" value="Register" class="button">
+                </form>
+            </div>
+        </div>
+    </body>
 </html>

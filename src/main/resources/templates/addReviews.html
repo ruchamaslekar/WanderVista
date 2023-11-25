@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="@{CSS/home-layout.css}">
-  <title>TravelHelper</title>
-  <style>
-              body {
-                font-family: "Times New Roman", Times, serif;
-                background-color: white;
-            }
+    <head>
+        <meta charset="UTF-8">
+        <title>TravelHelper</title>
+    </head>
+    <style>
+        body {
+          font-family: "Times New Roman", Times, serif;
+          background-color: white;
+        }
         .wrapper {
             width: 100%
             height: 680px;
@@ -39,7 +39,7 @@
             border: 1 px;
             cursor: pointer;
             font-size: 16px;
-	        font-family: "Times New Roman", Times, serif;
+            font-family: "Times New Roman", Times, serif;
         }
         .container{
             width: 700px;
@@ -79,47 +79,40 @@
             text-align: center;
         }
         ul {
-   margin: 20;
-   padding: 0;
-   overflow: hidden;
-   background-color: #6dae67;
-   min-height: 40px;
-   border: 1px solid black;
-}
+             margin: 20;
+             padding: 0;
+             overflow: hidden;
+             background-color: #6dae67;
+             min-height: 40px;
+             border: 1px solid black;
+        }
     </style>
-</head>
-<body>
-<ul th:fragment="userNavBar">
-  <a href="/home">Home</a>
-  <a style="float:right"/> <a class="active" href="/logout">Logout</a>
-</ul>
-<h2>Add Reviews</h2>
-  <div class="wrapper">
-<form method="post" action="/addReviews">
 
-  <label for="reviewId">ReviewId:<span class="required"></span></label><br>
-  <input type="text" id="reviewId" name="reviewId" placeholder="reviewId" required><br>
+    <body>
+        <ul th:fragment="userNavBar">
+          <a href="/home">Home</a>
+          <a style="float:right"/> <a class="active" href="/logout">Logout</a>
+        </ul>
+        <h2>Add Reviews</h2>
+        <div class="wrapper">
+            <form method="post" action="/addReviews">
+                <label for="reviewId">ReviewId:<span class="required"></span></label><br>
+                <input type="text" id="reviewId" name="reviewId" placeholder="reviewId" required><br>
 
-  <label for="rating">Rating:</label><br>
-  <input type="text" id="rating" name="rating" placeholder="rating"><br>
+                <label for="rating">Rating:</label><br>
+                <input type="text" id="rating" name="rating" placeholder="rating"><br>
 
-  <label for="title">Title:</label><br>
-  <input type="text" id="title" name="title" placeholder="title"><br>
+                <label for="title">Title:</label><br>
+                <input type="text" id="title" name="title" placeholder="title"><br>
 
-  <label for="reviewText">ReviewText:<span class="required"></span></label><br>
-  <input type="text" id="reviewText" name="reviewText" placeholder="reviewText"><br>
+                <label for="reviewText">ReviewText:<span class="required"></span></label><br>
+                <input type="text" id="reviewText" name="reviewText" placeholder="reviewText"><br>
 
-  <label for="username">Username:<span class="required"></span></label><br>
-  <input type="text" id="username" name="username" placeholder="username"><br>
+                <label for="hotelId">HotelId<span class="required"></span></label><br>
+                <input type="text" id="hotelId" name="hotelId" th:value="${hotelId}"><br>
 
-<!--  <label for="date">Date:<span class="required"></span></label>-->
-<!--  <input type="date" id="date" name="date" placeholder="date"><br>-->
-
-  <label for="hotelId">HotelId<span class="required"></span></label><br>
-  <input type="text" id="hotelId" name="hotelId" th:value="${hotelId}"><br>
-
-  <input type="submit" value="Add Review" class="button">
-</form>
-</div>
-</body>
+                <input type="submit" value="Add Review" class="button">
+            </form>
+        </div>
+    </body>
 </html>

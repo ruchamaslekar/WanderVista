@@ -1,124 +1,95 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>TravelHelper</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="UTF-8">
+    <title>TravelHelper</title>
 </head>
 <style>
         body {
-	font-family: Helvetica, sans-serif;
-	background-color: white;
-}
+            background: url ("/Images/library.jpeg") no-repeat center center fixed;
+            background-size: cover;
+            font-family: "Times New Roman", Times, serif;
+        }
         .wrapper {
             padding-left: 500px;
             padding-top: 200px;
-}
-
-input[type=text],input[type=password], input[type=email], select, textarea {
-  width: 90%;
-  padding: 10px;
-  border: 1px solid black;
-  resize: vertical;
-  margin-top: 30px;
-   margin-left: 0px;
-}
-
-label {
-  padding: 12px 12px 12px 0;
-  display: inline-block;
-  margin-top: 30px;
-}
-
-input[type=submit]{
-  background-color:#6dae67;
-  color: black;
-  padding: 13px;
-  width: 261px;
-  margin-top: 18px;
-  margin-left: 128px;
-  border: 1 px;
-  cursor: pointer;
-  font-size: 16px;
-
-}
-
-.container{
-  width: 500px;
-  height: 300px;
-  background-color:#D3D3D3;
-  padding: 20px;
-  border: 1px solid black;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.col-25 {
-  float: left;
-  width: 25%;
-  margin-top: 6px;
-}
-
-.col-75 {
-  float: left;
-  width: 75%;
-  margin-top: 6px;
-}
-
-
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-
-.incorrect{
-	color: red;
-}
-
-.logout{
-	color: green;
-}
-.required::after {
-    content: " *";
-    color: red;
-  }
-  h2 {
-    text-align: center;
-  }
+        }
+        input[type=text],input[type=password], input[type=email], select, textarea {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid black;
+            resize: vertical;
+            margin-top: 30px;
+            margin-left: 0px;
+            font-family: "Times New Roman", Times, serif;
+        }
+        label {
+            padding: 12px 12px 12px 0;
+            display: inline-block;
+            margin-top: 30px;
+            font-size: 18px;
+            font-family: "Times New Roman", Times, serif;
+        }
+        input[type=submit]{
+            background-color:#6dae67;
+            color: black;
+            padding: 13px;
+            width: 261px;
+            margin-top: 18px;
+            margin-left: 220px;
+            border: 1 px;
+            cursor: pointer;
+            font-size: 18px;
+            align-items: center;
+            font-family: "Times New Roman", Times, serif;
+        }
+        .container{
+            width: 700px;
+            height: 400px;
+            background-color:white;
+            padding: 20px;
+            border: 1px solid black;
+            position: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .col-25 {
+            float: left;
+            width: 25%;
+            margin-top: 6px;
+        }
+        .col-75 {
+            float: left;
+            width: 75%;
+            margin-top: 6px;
+        }
+        .required::after {
+            content: " *";
+            color: red;
+        }
+        h2 {
+            text-align: center;
+        }
     </style>
 <body>
-<body>
-  <div class="container">
-    <h2>Register</h2>
-    <form method="post" action="/register">
-      <div class="row">
-        <div class="col-25">
-          <label for="name">Username:<span class="required"></span></label>
-        </div>
-        <div class="col-75">
-          <input type="text" id="name" name="username" placeholder="Enter Username"/>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-25">
-          <label for="pass">Password:<span class="required"></span></label>
-        </div>
-        <div class="col-75">
-          <input type="password" id="pass" name="password" placeholder="Enter Password" />
-        </div>
-      </div>
-      <input type="submit" value="Register" class="button">
-    </form>
-    <form method="get" action="/login">
-      <div class="form-actions">
-        <input type="submit" value="Back" class="button">
-      </div>
-    </form>
-  </div>
-</body>
-
+<div class="wrapper">
+    <div class="container">
+        <h2>Register</h2>
+        <form method="post" action="/login">
+            <div th:if="${error}" class="alert alert-error">
+                <large class="incorrect">Invalid username and password.</large>
+            </div>
+            <label for="username">Username:<span class="required"></span></label>
+            <input type="text" id="username" name="username" placeholder="Enter Username" required/>
+            <label for="password">Password:<span class="required"></span></label>
+            <input type="password" id="password" name="password" placeholder="Enter Password" required />
+            <input type="submit" value="Register" class="button">
+        </form>
+        <form method="get" action="/login">
+            <input type="submit" value="Back" class="button">
+        </form>
+    </div>
+</div>
 </body>
 </html>
