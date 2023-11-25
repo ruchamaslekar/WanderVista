@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>TravelHelper</title>
+</head>
+<style>
+  body {
+	font-family: "Times New Roman", Times, serif;
+	background-color: white;
+}
+
+ul {
+   margin: 20;
+   padding: 0;
+   overflow: hidden;
+   background-color: #6dae67;
+   min-height: 40px;
+   border: 1px solid black;
+}
+.container {
+  padding: 16px;
+  background-color: white;
+}
+.button-container {
+  display: flex;
+  align-items: center;
+}
+
+.button {
+  background-color: red;
+  color: black;
+  border: 1px solid black;
+  padding: 10px 20px;
+  margin-right: 5px;
+  cursor: pointer;
+  width: 160px;
+}
+
+.search-box {
+  padding: 10px;
+  border: 1px solid black;
+  font-size: 15px;
+  width: 120px;
+  size: 40px;
+}
+
+.search-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+   font-family: "Times New Roman", Times, serif;
+}
+
+table, th, td {
+  border: 1px solid black;
+   font-family: "Times New Roman", Times, serif;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+   font-family: "Times New Roman", Times, serif;
+}
+
+th {
+  background-color: #6dae67;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #e0e0e0;
+}
+.button {
+  background-color: #6dae67;
+  color: black;
+  border: 1px solid black;
+  padding: 10px 20px;
+  margin-left: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+   font-family: "Times New Roman", Times, serif;
+}
+.required::after {
+    content: " *";
+    color: red;
+}
+
+h1 {
+  text-align: left;
+   font-family: "Times New Roman", Times, serif;
+}
+a {
+    color: black;
+    margin-right: 20px;
+    margin-left: 10px;
+}
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.search-form {
+    width: 200px;
+    margin: 10 auto;
+}
+input[type=text], input[type=password] ,input[type=email]{
+   width: 30%;
+   padding: 15px;
+   margin: 5px 0 22px 0;
+   display: inline-block;
+   border: 1 px black;
+   background: white;
+    font-family: "Times New Roman", Times, serif;
+}
+
+
+    </style>
+<body>
+<ul th:fragment="userNavBar">
+    <a href="/home">Home</a>
+    <a style="float:right"/> <a class="active" href="/logout">Logout</a>
+</ul>
+<h2>Hotel Details</h2>
+<form>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Average Rating</th>
+        </tr>
+        </thead>
+        <tbody>
+            <td th:text="${hotel.hotelId}"></td>
+            <td th:text="${hotel.hotelName }"></td>
+            <td th:text="${hotel.address + ', ' + hotel.city + ', ' + hotel.state + ', ' + hotel.country}"></td>
+            <td th:text="${averageRating}"></td>
+        </tbody>
+    </table><br><br><h2>Reviews</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Rating</th>
+            <th>Title</th>
+            <th>Text</th>
+            <th>Username</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="review : ${reviews}">
+        <td th:text="${review.reviewId}"></td>
+        <td th:text="${review.ratingOverall}"></td>
+        <td th:text="${review.title}"></td>
+        <td th:text="${review.reviewText}"></td>
+        <td th:text="${review.userNickname}"></td>
+        <td th:text="${review.date}"></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<form method = "get" action="/addReviews">
+    <input type="hidden" name="hotelId" th:value="${hotel.hotelId}" />
+    <div class="form-actions">
+        <input type="submit" value="Add Reviews" class="button">
+    </div>
+</form>
+<form method = "get" action="/hotelSearch">
+    <div class="form-actions">
+        <input type="submit" value="Back" class="button">
+    </div>
+</form>
+</body>
+</html>

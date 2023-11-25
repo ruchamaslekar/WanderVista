@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="@{CSS/home-layout.css}">
+    <title>TravelHelper</title>
+    <style>
+          body {
+            font-family: "Times New Roman", Times, serif;
+            background-color: white;
+           }
+        .wrapper {
+            padding-left: 500px;
+            padding-top: 200px;
+        }
+        input[type=text],input[type=password], input[type=email], select, textarea {
+            width: 50%;
+            padding: 10px;
+            border: 1px solid black;
+            resize: vertical;
+            margin-top: 30px;
+            margin-left: 0px;
+        }
+        label {
+            padding: 12px 12px 12px 0;
+            display: inline-block;
+            margin-top: 30px;
+            font-size: 18px;
+        }
+        input[type=submit]{
+            background-color:#6dae67;
+            color: black;
+            padding: 13px;
+            width: 261px;
+            margin-top: 18px;
+            margin-left: 220px;
+            border: 1 px;
+            cursor: pointer;
+            font-size: 18px;
+	        font-family: "Times New Roman", Times, serif;
+        }
+        .container{
+            width: 700px;
+            height: 400px;
+            background-color:white
+            padding: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .col-25 {
+            float: left;
+            width: 25%;
+            margin-top: 6px;
+        }
+        .col-75 {
+            float: left;
+            width: 75%;
+            margin-top: 6px;
+        }
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .incorrect{
+            color: red;
+        }
+        .logout{
+            color: green;
+        }
+        .required::after {
+            content: " *";
+            color: red;
+        }
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<ul th:fragment="userNavBar">
+    <a href="/home">Home</a>
+    <a style="float:right"/> <a class="active" href="/logout">Logout</a>
+</ul>
+<h2>Hotel Search</h2>
+</form>
+        <form method="get" action="/hotels">
+            <label for="word">Keyword:<span class="required"></span></label>
+            <input type="text" id="word" name="word" placeholder="Enter a keyword to search for hotel names"/><br><br>
+            <input type="submit" value="Search" class="button">
+        </form>
+</body>
+<form method="get" action="/home">
+    <div class="form-actions">
+        <input type="submit" value="Back" class="button">
+    </div>
+</form>
+</html>

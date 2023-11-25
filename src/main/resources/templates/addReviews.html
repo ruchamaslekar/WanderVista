@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="@{CSS/home-layout.css}">
+  <title>TravelHelper</title>
+  <style>
+              body {
+                font-family: "Times New Roman", Times, serif;
+                background-color: white;
+            }
+        .wrapper {
+            width: 100%
+            height: 680px;
+            padding-left: 50px;
+            padding-top: 20px;
+            border: 1px solid black;
+        }
+        input[type=text],input[type=password], input[type=email], select, textarea {
+            width: 50%;
+            padding: 10px;
+            border: 1px solid black;
+            resize: vertical;
+            margin-left: 0px;
+        }
+        label {
+            padding: 12px 12px 12px 0;
+            display: inline-block;
+            font-size: 16px;
+        }
+        input[type=submit]{
+            background-color:#6dae67;
+            color: black;
+            padding: 13px;
+            width: 261px;
+            margin-left: 220px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border: 1 px;
+            cursor: pointer;
+            font-size: 16px;
+	        font-family: "Times New Roman", Times, serif;
+        }
+        .container{
+            width: 700px;
+            height: 400px;
+            background-color:white
+            padding: 20px;
+            border: 1 px black;
+            top: 50%;
+            left: 50%;
+        }
+        .col-25 {
+            float: left;
+            width: 25%;
+            margin-top: 6px;
+        }
+        .col-75 {
+            float: left;
+            width: 75%;
+            margin-top: 6px;
+        }
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .incorrect{
+            color: red;
+        }
+        .logout{
+            color: green;
+        }
+        .required::after {
+            content: " *";
+            color: red;
+        }
+        h2 {
+            text-align: center;
+        }
+        ul {
+   margin: 20;
+   padding: 0;
+   overflow: hidden;
+   background-color: #6dae67;
+   min-height: 40px;
+   border: 1px solid black;
+}
+    </style>
+</head>
+<body>
+<ul th:fragment="userNavBar">
+  <a href="/home">Home</a>
+  <a style="float:right"/> <a class="active" href="/logout">Logout</a>
+</ul>
+<h2>Add Reviews</h2>
+  <div class="wrapper">
+<form method="post" action="/addReviews">
+
+  <label for="reviewId">ReviewId:<span class="required"></span></label><br>
+  <input type="text" id="reviewId" name="reviewId" placeholder="reviewId" required><br>
+
+  <label for="rating">Rating:</label><br>
+  <input type="text" id="rating" name="rating" placeholder="rating"><br>
+
+  <label for="title">Title:</label><br>
+  <input type="text" id="title" name="title" placeholder="title"><br>
+
+  <label for="reviewText">ReviewText:<span class="required"></span></label><br>
+  <input type="text" id="reviewText" name="reviewText" placeholder="reviewText"><br>
+
+  <label for="username">Username:<span class="required"></span></label><br>
+  <input type="text" id="username" name="username" placeholder="username"><br>
+
+<!--  <label for="date">Date:<span class="required"></span></label>-->
+<!--  <input type="date" id="date" name="date" placeholder="date"><br>-->
+
+  <label for="hotelId">HotelId<span class="required"></span></label><br>
+  <input type="text" id="hotelId" name="hotelId" th:value="${hotelId}"><br>
+
+  <input type="submit" value="Add Review" class="button">
+</form>
+</div>
+</body>
+</html>

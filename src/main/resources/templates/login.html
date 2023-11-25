@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelHelper</title>
+    <style>
+        body {
+            background: url ("/Images/library.jpeg") no-repeat center center fixed;
+            background-size: cover;
+            font-family: "Times New Roman", Times, serif;
+
+        }
+        .wrapper {
+            padding-left: 500px;
+            padding-top: 200px;
+        }
+        input[type=text],input[type=password], input[type=email], select, textarea {
+            width: 90%;
+            padding: 10px;
+            border: 1px solid black;
+            resize: vertical;
+            margin-top: 30px;
+            margin-left: 0px;
+            font-family: "Times New Roman", Times, serif;
+        }
+        label {
+            padding: 12px 12px 12px 0;
+            display: inline-block;
+            margin-top: 30px;
+            font-size: 18px;
+            font-family: "Times New Roman", Times, serif;
+        }
+        input[type=submit]{
+            background-color:#6dae67;
+            color: black;
+            padding: 13px;
+            width: 261px;
+            margin-top: 18px;
+            margin-left: 220px;
+            border: 1 px;
+            cursor: pointer;
+            font-size: 18px;
+            align-items: center;
+            font-family: "Times New Roman", Times, serif;
+        }
+        .container{
+            width: 700px;
+            height: 400px;
+            background-color:#D3D3D3;
+            padding: 20px;
+            border: 1px solid black;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .col-25 {
+            float: left;
+            width: 25%;
+            margin-top: 6px;
+        }
+        .col-75 {
+            float: left;
+            width: 75%;
+            margin-top: 6px;
+        }
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .incorrect{
+            color: red;
+        }
+        .logout{
+            color: green;
+        }
+        .required::after {
+            content: " *";
+            color: red;
+        }
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="container">
+    <h2>Login</h2>
+  <form method="post" action="/login">
+    <div th:if="${error}" class="alert alert-error">
+      <large class="incorrect">Invalid username and password.</large>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="username">Username:<span class="required"></span></label>
+      </div>
+      <div class="col-75">
+        <input type="text" id="username" name="username" placeholder="Enter Username" required/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="password">Password:<span class="required"></span></label>
+      </div>
+      <div class="col-75">
+        <input type="password" id="password" name="password" placeholder="Enter Password" required />
+      </div>
+    </div>
+    <div class="form-actions">
+      <input type="submit" value="Login" class="button">
+    </div>
+  </form>
+    <form method="get" action="/register">
+      <input type="submit" value="Register" class="button">
+    </form>
+</div>
+</div>
+</body>
+</html>
