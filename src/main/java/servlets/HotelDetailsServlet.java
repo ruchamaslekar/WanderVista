@@ -23,6 +23,8 @@ public class HotelDetailsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
+        String originalURL = request.getRequestURI();
+        session.setAttribute("originalURL", originalURL);
         if (session.getAttribute("username") == null) {
             response.sendRedirect("/login");
         }else {
@@ -33,7 +35,7 @@ public class HotelDetailsServlet extends HttpServlet {
             String city = hotel.getCity();
             List<Review> reviewList = handler.getReviewsById(hotel.getHotelId());
             double averageRating = handler.getAverageReviews(hotel.getHotelId());
-            String expediaLink = "https://www.expedia.com/" + city + "-Hotels/" + hotelName + ".h" + hotelId + ".Hotel-Information";
+            String expediaLink = "https://www.expedia.com/" + city + "-Hotels-" + hotelName + ".h" + hotelId + ".Hotel-Information";
             response.setContentType("text/html");
             PrintWriter out = response.getWriter();
             if (hotel != null) {

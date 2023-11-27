@@ -41,6 +41,8 @@ public class EditReviewsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        String originalURL = request.getRequestURI();
+        session.setAttribute("originalURL", originalURL);
         String username =(String) session.getAttribute("username");
         String reviewId = request.getParameter("reviewId");
         String hotelId = request.getParameter("hotelId");

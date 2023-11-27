@@ -22,12 +22,18 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
-        response.setStatus(HttpServletResponse.SC_OK);
+        HttpSession session = request.getSession();
         PrintWriter out = response.getWriter();
-        ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
-        ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
-        thymeleafRenderer.render("login", out);
+        if (session.getAttribute("username") == null) {
+            response.setContentType("text/html");
+            response.setStatus(HttpServletResponse.SC_OK);
+            ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
+            ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
+            thymeleafRenderer.render("login", out);
+        } else {
+            String originalURL = (String) session.getAttribute("originalURL");
+            response.sendRedirect(originalURL);
+        }
     }
 
     /**
@@ -39,17 +45,16 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        HttpSession session = request.getSession();
         if(username != null && !username.equals("")) {
             if (password != null && !password.equals("")) {
                 username = StringEscapeUtils.escapeHtml4(username);
                 password = StringEscapeUtils.escapeHtml4(password);
                 PrintWriter out = response.getWriter();
                 DatabaseHandler dbHandler = DatabaseHandler.getInstance();
-                //check why flag is false
                 boolean flag = dbHandler.authenticateUser(username, password);
-                if (flag) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("username", username);
+                session.setAttribute("username", username);
+                if(flag) {
                     response.sendRedirect("/home");
                 } else {
                     String error = "Error logging in ";
