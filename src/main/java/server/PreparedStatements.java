@@ -36,8 +36,11 @@ public class PreparedStatements {
     public static final String GET_REVIEWS_BY_HOTEL_ID=
             "SELECT * FROM reviews WHERE hotel_id = ?";
 
-    public static final String GET_REVIEWS_For_USER=
+    public static final String GET_REVIEWS_FOR_USER=
             "SELECT * FROM reviews WHERE hotel_id = ? AND username=?";
+
+    public static final String GET_REVIEWS_BY_HOTEL_ID_AND_REVIEW_ID=
+            "SELECT * FROM reviews WHERE hotel_id = ? AND review_id=?";
 
     public static final String CREATE_REVIEWS_TABLE = "CREATE TABLE reviews(" +
             "review_id VARCHAR(64) NOT NULL, " +
@@ -53,9 +56,11 @@ public class PreparedStatements {
     public static final String INSERT_INTO_REVIEWS = "INSERT INTO reviews(review_id, overall_rating, title, review_text, username, submission_date, hotel_id)" +
             "VALUES (?, ?, ?, ?, ?, ?, ?);";
 
-    public static final String GET_AVERAGE_REVIEWS = "SELECT avg(overall_rating) AS overall_rating FROM reviews WHERE hotel_id = ? GROUP BY hotel_id";
+    public static final String GET_AVERAGE_REVIEWS = "SELECT avg(overall_rating) AS overall_rating FROM reviews WHERE hotel_id = ? GROUP BY hotel_id;";
 
-    public static final String DELETE_REVIEW_FOR_USER = "DELETE FROM reviews where review_id=? AND hotel_id=?";
+    public static final String DELETE_REVIEW_FOR_USER = "DELETE FROM reviews where review_id=? AND hotel_id=?;";
+
+    public static final String UPDATE_REVIEW_DETAILS = "UPDATE reviews SET title=?, review_text=?, overall_rating=?, submission_date=?,username=?  WHERE review_id=? and hotel_id=?;";
     /** Used to insert a new user into the database. */
     public static final String REGISTER_SQL =
             "INSERT INTO users (username, password, usersalt) " +
@@ -63,11 +68,11 @@ public class PreparedStatements {
 
     /** Used to retrieve the salt associated with a specific user. */
     public static final String SALT_SQL =
-            "SELECT usersalt FROM users WHERE username = ?";
+            "SELECT usersalt FROM users WHERE username = ?;";
 
     /** Used to authenticate a user. */
     public static final String AUTH_SQL =
             "SELECT username FROM users " +
-                    "WHERE username = ? AND password = ?";
+                    "WHERE username = ? AND password = ?;";
 
 }
