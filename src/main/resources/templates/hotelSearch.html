@@ -99,15 +99,12 @@
         <div class ="wrapper">
         <form method="get" action="/hotels">
             <label for="word">Keyword:<span class="required"></span></label>
-            <input type="text" id="word" name="word" placeholder="Enter a keyword to search for hotel names"/><br><br>
+            <input type="text" id="word" name="word" placeholder="Enter a keyword to search for hotel names" required/><br><br>
             <input type="submit" value="Search" formaction="/hotels">
-            <input type="submit" value="Back" formaction="/home">
+        </form>
+        <form method="get" action="/home">
+                <input type="submit" value="Back" class="button">
         </form>
         </div>
-<!--        <form method="get" action="/home">-->
-<!--            <div class="form-actions">-->
-<!--                <input type="submit" value="Back" class="button">-->
-<!--            </div>-->
-<!--        </form>-->
     </body>
 </html>
