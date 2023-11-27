@@ -127,6 +127,7 @@
                         <th>Name</th>
                         <th>Address</th>
                         <th>Average Rating</th>
+                        <th>Expedia Link</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -134,6 +135,8 @@
                     <td th:text="${hotel.hotelName }"></td>
                     <td th:text="${hotel.address + ', ' + hotel.city + ', ' + hotel.state + ', ' + hotel.country}"></td>
                     <td th:text="${averageRating}"></td>
+<!--                    <td th:text="${expediaLink}"></td>-->
+                   <td><a th:href="${expediaLink}" target="_blank">Go to Expedia</a></td>
                 </tbody>
             </table><br><br>
             <h2>Reviews</h2>
@@ -160,12 +163,14 @@
                 </tbody>
             </table>
             <input type="hidden" name="hotelId" th:value="${hotel.hotelId}" />
+            <input type="hidden" name="hotelName" th:value="${hotel.hotelName}" />
             <div class="form-actions">
                 <input type="submit" value="Add Reviews" class="button" formaction="/addReviews">
                 <input type="submit" value="Edit Reviews" class="button" formaction="/deleteReviews">
             </div>
         </form>
-        <form method = "get" action="/hotelSearch">
+        <form method = "get" action="/hotels">
+            <input type="hidden" name="word" th:value="${word}" />
             <div class="form-actions">
                 <input type="submit" value="Back" class="button">
             </div>

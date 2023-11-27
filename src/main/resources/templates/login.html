@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="eng">
     <head>
         <meta charset="UTF-8">
         <title>TravelHelper</title>
@@ -73,9 +73,15 @@
         }
         .incorrect{
 	        color: red;
+	        text-align: center;
         }
         .correct{
 	        color: green;
+	        text-align: center;
+        }
+         .text{
+	        color: black;
+	        text-align: center;
         }
     </style>
     <body>
@@ -84,16 +90,20 @@
                 <h2>Login</h2>
                 <form method="post" action="/login">
                     <div th:if="${error}" class="alert alert-error">
-                        <large class="incorrect">Invalid username and password.</large>
+                        <large class="incorrect">Invalid credentials.Please try again</large>
                     </div>
                     <div th:if="${success}">
                         <large class="correct">Registration done successfully! Please login to continue</large>
+                    </div>
+                    <div th:if="${message}">
+                        <large class="incorrect">User with these credentials already exists</large>
                     </div>
                         <label for="username">Username:<span class="required"></span></label>
                         <input type="text" id="username" name="username" placeholder="Enter Username" required/>
                         <label for="password">Password:<span class="required"></span></label>
                         <input type="password" id="password" name="password" placeholder="Enter Password" required />
                         <input type="submit" value="Login" class="button">
+                    <p class="text">New User? Please register here</p>
                 </form>
                 <form method="get" action="/register">
                     <input type="submit" value="Register" class="button">
