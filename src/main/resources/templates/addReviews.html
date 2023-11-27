@@ -102,16 +102,22 @@
                 <label for="rating">Rating:</label><br>
                 <input type="text" id="rating" name="rating" placeholder="rating"><br>
 
-                <label for="title">Title:</label><br>
-                <input type="text" id="title" name="title" placeholder="title"><br>
+                <label for="title">Title:<span class="required"></span></label><br>
+                <input type="text" id="title" name="title" placeholder="title" required><br>
 
                 <label for="reviewText">ReviewText:<span class="required"></span></label><br>
-                <input type="text" id="reviewText" name="reviewText" placeholder="reviewText"><br>
+                <input type="text" id="reviewText" name="reviewText" placeholder="reviewText" required><br>
 
                 <label for="hotelId">HotelId<span class="required"></span></label><br>
                 <input type="text" id="hotelId" name="hotelId" th:value="${hotelId}"><br>
 
                 <input type="submit" value="Add Review" class="button">
+            </form>
+            <form method = "get" action="/hotelDetails">
+                <div class="form-actions">
+                    <input type="hidden" name="hotelName" th:value="${hotelName}" />
+                    <input type="submit" value="Back" class="button">
+                </div>
             </form>
         </div>
     </body>
