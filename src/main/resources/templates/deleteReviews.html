@@ -131,7 +131,7 @@
     <a href="/home">Home</a>
     <a style="float:right"/> <a class="active" href="/logout">Logout</a>
 </ul>
-<h2>Edit Reviews</h2>
+<h2>Delete Reviews</h2>
     <table>
         <thead>
         <tr>
@@ -156,14 +156,16 @@
             <td>
                 <input type="hidden" name="hotelId" th:value="${hotelId}">
                 <input type="hidden" name="reviewId" th:value="${review.reviewId}">
-                <button type="submit" name="delete" class="button">Delete</button>
+                <button type="submit" name="action" value="delete" class="button">Delete</button>
+                <button type="submit" name="action" value="edit" class="button">Edit</button>
             </td>
             </form>
         </tr>
         </tbody>
     </table>
-<form method = "get" action="/hotelSearch">
+<form method = "get" action="/hotelDetails">
     <div class="form-actions">
+        <input type="hidden" name="hotelName" th:value="${hotelName}" />
         <input type="submit" value="Back" class="button">
     </div>
 </form>
