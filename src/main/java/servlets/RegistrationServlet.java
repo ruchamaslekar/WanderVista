@@ -36,22 +36,29 @@ public class RegistrationServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
         PrintWriter out = response.getWriter();
-        String usernameParam = request.getParameter("username");
-        usernameParam = StringEscapeUtils.escapeHtml4(usernameParam);
+        String username = request.getParameter("username");
+        username = StringEscapeUtils.escapeHtml4(username);
         String password = request.getParameter("password");
         password = StringEscapeUtils.escapeHtml4(password);
         DatabaseHandler dbHandler = DatabaseHandler.getInstance();
-        dbHandler.registerUser(usernameParam, password);
-        String success ="Registration done successfully! Please login to continue";
-        ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
-        ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
-        thymeleafRenderer.setVariable("success", success);
-        thymeleafRenderer.render("login",out);
-        response.sendRedirect("/login");
+        boolean flag = dbHandler.authenticateUser(username,password);
+        if(flag){
+            String message = "User with these credentials already exist.Please login to continue";
+            ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
+            ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
+            thymeleafRenderer.setVariable("message",message);
+            thymeleafRenderer.render("login", out);
+        } else {
+            dbHandler.registerUser(username, password);
+            String success = "Registration done successfully! Please login to continue";
+            ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
+            ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
+            thymeleafRenderer.setVariable("success", success);
+            thymeleafRenderer.render("login", out);
+        }
         out.flush();
 
     }
