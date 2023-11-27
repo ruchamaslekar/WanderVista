@@ -343,7 +343,7 @@ public class DatabaseHandler {
         Review review = null;
         List<Review> reviewList = new ArrayList<>();
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
-            statement = dbConnection.prepareStatement(PreparedStatements.GET_REVIEWS_For_USER);
+            statement = dbConnection.prepareStatement(PreparedStatements.GET_REVIEWS_FOR_USER);
             statement.setString(1, hotelId);
             statement.setString(2, username);
             ResultSet resultSet = statement.executeQuery();
@@ -364,6 +364,54 @@ public class DatabaseHandler {
             System.out.println(ex);
         }
         return  reviewList;
+    }
+
+    public Review getReviewsByReviewIdAndHotelId(String hotelId,String reviewId){
+        PreparedStatement statement;
+        Review review = null;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            statement = dbConnection.prepareStatement(PreparedStatements.GET_REVIEWS_BY_HOTEL_ID_AND_REVIEW_ID);
+            statement.setString(1, hotelId);
+            statement.setString(2, reviewId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                reviewId = resultSet.getString("review_id");
+                double rating = (Double.parseDouble(resultSet.getString("overall_rating")));
+                String title = resultSet.getString("title");
+                String reviewText = resultSet.getString("review_text");
+                String username = resultSet.getString("username");
+                String date = resultSet.getString("submission_date");
+                hotelId = resultSet.getString("hotel_id");
+                review = new Review(reviewId,rating,title,reviewText,username,date.trim(),hotelId);
+                System.out.println(review.toString());
+            }
+            statement.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return review;
+    }
+
+    public void updateReviewDetails(Review review) {
+        PreparedStatement statement;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            try {
+                statement = dbConnection.prepareStatement(PreparedStatements.UPDATE_REVIEW_DETAILS);
+                statement.setString(1, review.getTitle());
+                statement.setString(2, review.getReviewText());
+                statement.setDouble(3, review.getRatingOverall());
+                statement.setString(4, review.getDate());
+                statement.setString(5, review.getUserNickname());
+                statement.setString(6, review.getReviewId());
+                statement.setString(7, review.getHotelId());
+                statement.executeUpdate();
+                statement.close();
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
     }
 
     public void createReviewsTable() {
