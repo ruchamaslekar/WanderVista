@@ -25,14 +25,21 @@ public class AddReviewsServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        String hotelId = request.getParameter("hotelId");
-        response.setContentType("text/html");
-        response.setStatus(HttpServletResponse.SC_OK);
-        ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
-        ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
-        thymeleafRenderer.setVariable("hotelId",hotelId);
-        thymeleafRenderer.render("addReviews", out);
+        HttpSession session = request.getSession();
+        if (session.getAttribute("username") == null) {
+            response.sendRedirect("/login");
+        } else {
+            PrintWriter out = response.getWriter();
+            String hotelId = request.getParameter("hotelId");
+            String hotelName = request.getParameter("hotelName");
+            response.setContentType("text/html");
+            response.setStatus(HttpServletResponse.SC_OK);
+            ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
+            ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
+            thymeleafRenderer.setVariable("hotelId", hotelId);
+            thymeleafRenderer.setVariable("hotelName", hotelName);
+            thymeleafRenderer.render("addReviews", out);
+        }
     }
 
     /**
