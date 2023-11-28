@@ -21,27 +21,44 @@ public class PreparedStatements {
             "city VARCHAR(64) NOT NULL, " +
             "state VARCHAR(64) NOT NULL, " +
             "country VARCHAR(64) NOT NULL);";
+
+    /** Prepared Statements  */
+    /** For inserting the hotels table */
     public static final String INSERT_INTO_HOTELS = "INSERT INTO hotels (id, name, address, latitude, longitude, city, state, country) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
+    /** Prepared Statements  */
+    /** For fetching values from hotels table by keyword*/
     public static final String GET_HOTELS_BY_KEYWORD =
             "SELECT * FROM hotels WHERE name like ?";
 
+    /** Prepared Statements  */
+    /** For fetching values from hotels table by name*/
     public static final String GET_HOTEL_BY_NAME =
             "SELECT * FROM hotels WHERE name = ?";
 
+    /** Prepared Statements  */
+    /** For fetching values from hotels table by id */
     public static final String GET_HOTEL_BY_ID =
             "SELECT * FROM hotels WHERE id = ?";
 
+    /** Prepared Statements  */
+    /** For fetching values from reviews table by hotel_id*/
     public static final String GET_REVIEWS_BY_HOTEL_ID=
-            "SELECT * FROM reviews WHERE hotel_id = ?";
+            "SELECT * FROM reviews WHERE hotel_id = ? ORDER BY submission_date DESC;";
 
+    /** Prepared Statements  */
+    /** For fetching values from reviews table */
     public static final String GET_REVIEWS_FOR_USER=
             "SELECT * FROM reviews WHERE hotel_id = ? AND username=?";
 
+    /** Prepared Statements  */
+    /** For fetching values from reviews table using hotel_id and review_id*/
     public static final String GET_REVIEWS_BY_HOTEL_ID_AND_REVIEW_ID=
             "SELECT * FROM reviews WHERE hotel_id = ? AND review_id=?";
 
+    /** Prepared Statements  */
+    /** For creating reviews table */
     public static final String CREATE_REVIEWS_TABLE = "CREATE TABLE reviews(" +
             "review_id VARCHAR(64) NOT NULL, " +
             "overall_rating DOUBLE NOT NULL," +
@@ -53,14 +70,23 @@ public class PreparedStatements {
             "PRIMARY KEY(review_id, hotel_id), " +
             "FOREIGN KEY(hotel_id) REFERENCES hotels(id));";
 
+    /** Prepared Statements  */
+    /** For inserting values into reviews table */
     public static final String INSERT_INTO_REVIEWS = "INSERT INTO reviews(review_id, overall_rating, title, review_text, username, submission_date, hotel_id)" +
             "VALUES (?, ?, ?, ?, ?, ?, ?);";
 
+    /** Prepared Statements  */
+    /** For fetching average of reviews  from reviews table */
     public static final String GET_AVERAGE_REVIEWS = "SELECT avg(overall_rating) AS overall_rating FROM reviews WHERE hotel_id = ? GROUP BY hotel_id;";
 
+    /** Prepared Statements  */
+    /** For deleting values from reviews table */
     public static final String DELETE_REVIEW_FOR_USER = "DELETE FROM reviews where review_id=? AND hotel_id=?;";
 
+    /** Prepared Statements  */
+    /** For modifying values from reviews table */
     public static final String UPDATE_REVIEW_DETAILS = "UPDATE reviews SET title=?, review_text=?, overall_rating=?, submission_date=?,username=?  WHERE review_id=? and hotel_id=?;";
+
     /** Used to insert a new user into the database. */
     public static final String REGISTER_SQL =
             "INSERT INTO users (username, password, usersalt) " +
