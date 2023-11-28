@@ -55,7 +55,9 @@ public class AddReviewsServlet extends HttpServlet {
         if (session.getAttribute("username") == null) {
             response.sendRedirect("/login");
         } else {
-            String reviewId = request.getParameter("reviewId");
+            Random random = new Random();
+            int randomNumber = random.nextInt(2000, 10000);
+            String reviewId = String.valueOf(randomNumber);
             double rating;
             String title;
             String reviewText;

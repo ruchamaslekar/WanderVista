@@ -1,5 +1,6 @@
 package servlets;
 
+import hotelData.Hotel;
 import reviewData.Review;
 import server.DatabaseHandler;
 import thyemeleaf.ThymeLeafConfig;
@@ -13,10 +14,15 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.util.List;
+
 
 public class EditReviewsServlet extends HttpServlet {
 
+    /**
+     * Handles GET request to /editReviews
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -30,14 +36,21 @@ public class EditReviewsServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_OK);
             DatabaseHandler handler = DatabaseHandler.getInstance();
             Review review = handler.getReviewsByReviewIdAndHotelId(hotelId, reviewId);
+            String hotelName = handler.getHotelById(hotelId).getHotelName();
             ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
             ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
             thymeleafRenderer.setVariable("review", review);
             thymeleafRenderer.setVariable("hotelId", hotelId);
+            thymeleafRenderer.setVariable("hotelName", hotelName);
             thymeleafRenderer.render("editReviews", out);
         }
-
     }
+
+    /**
+     * Handles POST request to /editReviews
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -60,10 +73,10 @@ public class EditReviewsServlet extends HttpServlet {
             reviewText = request.getParameter("reviewText");
         }
         Review review = new Review(reviewId,ratingOverall,title,reviewText,username, LocalDate.now().toString(),hotelId);
-        System.out.println();
-        System.out.println("Edit reviews post method:"+review.toString());
         DatabaseHandler handler = DatabaseHandler.getInstance();
         handler.updateReviewDetails(review);
-        response.sendRedirect("/deleteReviews?hotelId="+hotelId);
+        Hotel hotel = handler.getHotelById(hotelId);
+        String hotelName = hotel.getHotelName();
+        response.sendRedirect("/deleteReviews?hotelId="+hotelId+"&hotelName="+hotelName);
     }
 }

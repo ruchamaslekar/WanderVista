@@ -10,12 +10,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
 public class DeleteReviewsServlet extends HttpServlet {
+    /**
+     * Handles GET request to /deleteReviews
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -41,15 +45,21 @@ public class DeleteReviewsServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Handles POST request to /deleteReviews
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String reviewId = request.getParameter("reviewId");
         String hotelId = request.getParameter("hotelId");
-        String hotelName = request.getParameter("hotelName");
+
         String action = request.getParameter("action");
         if (action.equals("delete")) {
             DatabaseHandler handler = DatabaseHandler.getInstance();
             handler.deleteReview(reviewId,hotelId);
+            String hotelName = handler.getHotelById(hotelId).getHotelName();
             response.sendRedirect("/deleteReviews?hotelId="+hotelId+"&hotelName="+hotelName);
         } else if (action.equals("edit")) {
             response.sendRedirect("/editReviews?hotelId="+hotelId+"&reviewId="+reviewId);

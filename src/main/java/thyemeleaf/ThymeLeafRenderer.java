@@ -4,6 +4,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import java.io.PrintWriter;
 
+/** This class helps to render to HTML templates using Thymeleaf */
 public class ThymeLeafRenderer {
 
     private final TemplateEngine templateEngine;
