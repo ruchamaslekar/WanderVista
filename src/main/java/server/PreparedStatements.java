@@ -101,4 +101,9 @@ public class PreparedStatements {
             "SELECT username FROM users " +
                     "WHERE username = ? AND password = ?;";
 
+    /** Used to check if a user already exists */
+    public static final String GET_USER_BY_USERNAME =
+            "SELECT username FROM users " +
+                    "WHERE username = ?;";
+
 }
