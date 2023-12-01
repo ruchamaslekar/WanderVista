@@ -31,7 +31,7 @@
             margin-top: 30px;
             font-size: 18px;
         }
-        input[type=submit]{
+        input[type=submit],button{
             background-color:#6dae67;
             color: black;
             padding: 13px;
@@ -90,18 +90,32 @@
             min-height: 40px;
             border: 1px solid black;
         }
+         .incorrect{
+	        color: red;
+	        text-align: center;
+        }
+         .correct{
+	        color: green;
+	        text-align: center;
+        }
     </style>
 <body>
 <h2>Register</h2>
 <div class="wrapper">
         <form method="post" action="/register">
+            <div th:if="${passError}">
+                <large class="incorrect">Password does not meet requirements.Please try again</large>
+            </div>
             <label for="username">Username:<span class="required"></span></label>
             <input type="text" id="username" name="username" placeholder="Enter Username" required/><br>
             <label for="password">Password:<span class="required"></span></label>
-            <input type="password" id="password" name="password" placeholder="Enter Password" required /><br>
+            <input type="password" id="password" name="password" placeholder="Enter Password" required /><br><br>
+            <large class ="correct"> Note: Password must have an uppercase letter and a digit</large><br>
             <input type="submit" value="Register">
-            <input type="submit" value="Back" formaction="/login">
+            <button onclick="window.location.href='/login'">Back</button>
         </form>
+
+
 </div>
 </body>
 </html>
