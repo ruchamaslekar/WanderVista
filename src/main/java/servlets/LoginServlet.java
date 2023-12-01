@@ -31,8 +31,7 @@ public class LoginServlet extends HttpServlet {
             ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
             thymeleafRenderer.render("login", out);
         } else {
-            String originalURL = (String) session.getAttribute("originalURL");
-            response.sendRedirect(originalURL);
+            response.sendRedirect("/home");
         }
     }
 
