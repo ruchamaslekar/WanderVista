@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
 import hotelData.*;
@@ -139,6 +136,12 @@ public class DatabaseHandler {
             System.out.println(ex);
         }
     }
+
+    /**
+     * Deleted a user by reviewId and hotelId from database
+     * @param reviewId  String
+     * @param hotelId  String
+     */
     public void deleteReview(String reviewId,String hotelId) {
         PreparedStatement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -156,6 +159,11 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Authenticate a user to check if the username and password matches with the one in database
+     * @param username  String
+     * @param password  String
+     */
     public boolean authenticateUser(String username, String password) {
         PreparedStatement statement;
         try (Connection connection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -166,6 +174,25 @@ public class DatabaseHandler {
 
             statement.setString(1, username);
             statement.setString(2, passhash);
+            ResultSet results = statement.executeQuery();
+            boolean flag = results.next();
+            return flag;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the user already exists in table
+     * If yes it will return true else false
+     * @param username  String
+     */
+    public boolean getUser(String username) {
+        PreparedStatement statement;
+        try (Connection connection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            statement = connection.prepareStatement(PreparedStatements.GET_USER_BY_USERNAME);
+            statement.setString(1, username);
             ResultSet results = statement.executeQuery();
             boolean flag = results.next();
             return flag;
@@ -198,6 +225,9 @@ public class DatabaseHandler {
         return salt;
     }
 
+    /**
+     * Method to create hotels table in database
+     */
     public void createHotelsTable() {
         Statement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -208,6 +238,10 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method to insert data into hotels table
+     * @param hotelList  List<Hotel>
+     */
     public void insertIntoHotelsTable(List<Hotel> hotelList) {
         PreparedStatement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -233,6 +267,10 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method to get a list of hotels consisting the searched keyword
+     * @param keyword  String
+     */
     public List<Hotel> getHotelNamesByKeyword(String keyword){
         PreparedStatement statement;
         Hotel hotel = null;
@@ -261,6 +299,10 @@ public class DatabaseHandler {
         return  hotelList;
     }
 
+    /**
+     * Method to get a hotel from table by its name
+     * @param hotelName  String
+     */
     public Hotel getHotelByName(String hotelName){
         PreparedStatement statement;
         Hotel hotel = null;
@@ -286,6 +328,10 @@ public class DatabaseHandler {
         return  hotel;
     }
 
+    /**
+     * Method to get a hotel by its id
+     * @param hotelId  String
+     */
     public Hotel getHotelById(String hotelId){
         PreparedStatement statement;
         Hotel hotel = null;
@@ -311,6 +357,10 @@ public class DatabaseHandler {
         return  hotel;
     }
 
+    /**
+     * Method to get a list of reviews related with the given hotelId
+     * @param hotelId  String
+     */
     public List<Review> getReviewsById(String hotelId){
         PreparedStatement statement;
         Review review = null;
@@ -338,6 +388,11 @@ public class DatabaseHandler {
         return  reviewList;
     }
 
+    /**
+     * Method to get a list of reviews given by the user and hotelId
+     * @param username  String
+     * @param  hotelId String
+     */
     public List<Review> getReviewsForUser(String hotelId,String username){
         PreparedStatement statement;
         Review review = null;
@@ -366,6 +421,11 @@ public class DatabaseHandler {
         return  reviewList;
     }
 
+    /**
+     * Method to get a review by hotelId and reviewId
+     * @param hotelId  String
+     * @param  reviewId String
+     */
     public Review getReviewsByReviewIdAndHotelId(String hotelId,String reviewId){
         PreparedStatement statement;
         Review review = null;
@@ -392,6 +452,10 @@ public class DatabaseHandler {
         return review;
     }
 
+    /**
+     * Method to update the review details after user edits the reviews
+     * @param review Review
+     */
     public void updateReviewDetails(Review review) {
         PreparedStatement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -414,6 +478,9 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method to create reviews table
+     */
     public void createReviewsTable() {
         Statement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -424,6 +491,10 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method to insert data into reviews table
+     * @param reviewList  List<List<Review>>
+     */
     public void insertIntoReviewsTable(List<List<Review>> reviewList) {
         PreparedStatement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -449,6 +520,11 @@ public class DatabaseHandler {
             System.out.println(ex);
         }
     }
+
+    /**
+     * Method to add data into reviews table after user tries to add new review
+     * @param reviewList List<Review>
+     */
     public void insertIntoReviews(List<Review> reviewList) {
         PreparedStatement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -473,6 +549,11 @@ public class DatabaseHandler {
             System.out.println(ex);
         }
     }
+
+    /**
+     * Method to get average of all the reviews associated with the given hotelId
+     * @param hotelId  String
+     */
     public double getAverageReviews(String hotelId){
         PreparedStatement statement;
         double averageRating = 0.0;
