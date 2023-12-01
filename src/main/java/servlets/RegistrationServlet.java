@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegistrationServlet extends HttpServlet {
 
@@ -21,9 +23,6 @@ public class RegistrationServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String originalURL = request.getRequestURI();
-        session.setAttribute("originalURL", originalURL);
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
         PrintWriter out = response.getWriter();
@@ -48,22 +47,36 @@ public class RegistrationServlet extends HttpServlet {
         String password = request.getParameter("password");
         password = StringEscapeUtils.escapeHtml4(password);
         DatabaseHandler dbHandler = DatabaseHandler.getInstance();
-        boolean flag = dbHandler.authenticateUser(username,password);
+        boolean flag = dbHandler.getUser(username);
         if(flag){
-            String message = "User with these credentials already exist.Please login to continue";
+            String message = "User with these credentials already exist.Please try again";
             ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
             ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
             thymeleafRenderer.setVariable("message",message);
             thymeleafRenderer.render("login", out);
         } else {
-            dbHandler.registerUser(username, password);
-            String success = "Registration done successfully! Please login to continue";
             ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
             ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
-            thymeleafRenderer.setVariable("success", success);
-            thymeleafRenderer.render("login", out);
+            String passError = "";
+            String success = "";
+            String regex = "(?=.{8,})(?=.*[A-Z])(?=.*\\d)(?=.*[$%@#])(.*)";
+            Pattern p = Pattern.compile(regex);
+            Matcher matcher = p.matcher(password);
+            boolean checkPassword = matcher.matches();
+            System.out.println(checkPassword);
+            if (checkPassword) {
+                dbHandler.registerUser(username, password);
+                success = "Registration done successfully! Please login to continue";
+                thymeleafRenderer.setVariable("success", success);
+                thymeleafRenderer.render("login", out);
+            } else {
+                passError = "Password does not meet requirements.Please try again";
+                thymeleafRenderer.setVariable("passError", passError);
+                thymeleafRenderer.render("register", out);
+            }
+
+            out.flush();
         }
-        out.flush();
 
     }
 }

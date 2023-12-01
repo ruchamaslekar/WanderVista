@@ -22,8 +22,6 @@ public class HotelSearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        String originalURL = request.getRequestURI();
-        session.setAttribute("originalURL", originalURL);
         if (session.getAttribute("username") == null) {
             response.sendRedirect("/login");
         }else {
