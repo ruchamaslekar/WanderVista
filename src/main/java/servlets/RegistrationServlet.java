@@ -57,24 +57,11 @@ public class RegistrationServlet extends HttpServlet {
         } else {
             ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
             ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
-            String passError = "";
             String success = "";
-            String regex = "(?=.{8,})(?=.*[A-Z])(?=.*\\d)(?=.*[$%@#])(.*)";
-            Pattern p = Pattern.compile(regex);
-            Matcher matcher = p.matcher(password);
-            boolean checkPassword = matcher.matches();
-            System.out.println(checkPassword);
-            if (checkPassword) {
-                dbHandler.registerUser(username, password);
-                success = "Registration done successfully! Please login to continue";
-                thymeleafRenderer.setVariable("success", success);
-                thymeleafRenderer.render("login", out);
-            } else {
-                passError = "Password does not meet requirements.Please try again";
-                thymeleafRenderer.setVariable("passError", passError);
-                thymeleafRenderer.render("register", out);
-            }
-
+            dbHandler.registerUser(username, password);
+            success = "Registration done successfully! Please login to continue";
+            thymeleafRenderer.setVariable("success", success);
+            thymeleafRenderer.render("login", out);
             out.flush();
         }
 
