@@ -106,4 +106,17 @@ public class PreparedStatements {
             "SELECT username FROM users " +
                     "WHERE username = ?;";
 
+    public static final String CREATE_LOGIN_TABLE = "CREATE TABLE login_history(" +
+            "userid VARCHAR(64) PRIMARY KEY, " +
+            "last_login VARCHAR(64) NOT NULL " +
+            "); ";
+
+    public static final String INSERT_INTO_LOGIN_HISTORY = "INSERT INTO login_history (userid, last_login) VALUES(?,?);";
+
+    public static final String GET_LOGIN_DETAILS = "SELECT * from login_history WHERE userid=?;";
+
+    public static final String GET_USER_BY_NAME =
+            "SELECT userid FROM users WHERE username like ?";
+
+    public static final String UPDATE_LOGIN_HISTORY= "UPDATE login_history SET last_login=? WHERE userid=?";
 }
