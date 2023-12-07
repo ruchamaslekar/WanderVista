@@ -2,109 +2,74 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <title>TravelHelper</title>
     </head>
     <style>
         body {
             font-family: "Times New Roman", Times, serif;
             background-color: white;
-       }
-        .wrapper {
-            width: 100%
-            height: 680px;
+        }
+        .custom-btn-text-color {
+            color: #000;
+        }
+        .custom-jumbotron {
+            width: 100%;
+            height: 800%;
             padding-left: 50px;
             padding-top: 20px;
             border: 1px solid black;
-        }
-        input[type=text],input[type=password], input[type=email], select, textarea {
-            width: 50%;
-            padding: 10px;
-            border: 1px solid black;
-            resize: vertical;
-            margin-top: 30px;
-            margin-left: 0px;
-        }
-        label {
-            padding: 12px 12px 12px 0;
-            display: inline-block;
-            margin-top: 30px;
-            font-size: 18px;
-        }
-        input[type=submit]{
-            background-color:#6dae67;
-            color: black;
-            padding: 13px;
-            width: 200px;
-            margin-top: 25px;
-            margin-left: 100px;
-            margin-bottom: 300px;
-            border: 1 px;
-            cursor: pointer;
-            font-size: 18px;
-	        font-family: "Times New Roman", Times, serif;
-        }
-        .container{
-            width: 700px;
-            height: 400px;
-            background-color:white
-            padding: 20px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .col-25 {
-            float: left;
-            width: 25%;
-            margin-top: 6px;
-        }
-        .col-75 {
-            float: left;
-            width: 75%;
-            margin-top: 6px;
-        }
-        .row:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-        .incorrect{
-            color: red;
-        }
-        .logout{
-            color: green;
-        }
-        .required::after {
-            content: " *";
-            color: red;
-        }
+       }
         h2 {
             text-align: center;
         }
-        ul {
-            margin: 20;
-            padding: 0;
+        .custom-navbar {
+            margin-left: 50 px;
+            padding: 30 px;
+            padding-bottom: 30 px;
             overflow: hidden;
             background-color: #6dae67;
-            min-height: 40px;
-            border: 1px solid black;
+            min-height: 50px;
+            font-size:130%;
+            color: black;
+        }
+        .custom-navbar .navbar-nav > li > a {
+            color: black;
+        }
+        .custom-navbar .navbar-nav > li > a:hover {
+            color: #ffffff;
         }
     </style>
     <body>
-        <ul th:fragment="userNavBar">
-            <a href="/home">Home</a>
-            <a style="float:right"/> <a class="active" href="/logout">Logout</a>
-        </ul>
-        <h2>Hotel Search</h2>
-        <div class ="wrapper">
+        <nav class="navbar navbar-default custom-navbar">
+            <div class="container-fluid d-flex justify-content-end">
+                <ul class="nav navbar-nav">
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/hotelSearch">Hotel Search</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                </ul>
+            </div>
+        </nav>
         <form method="get" action="/hotels">
-            <label for="word">Keyword:<span class="required"></span></label>
-            <input type="text" id="word" name="word" placeholder="Enter a keyword to search for hotel names"/><br><br>
-            <input type="submit" value="Search" formaction="/hotels">
+            <h2>Hotel Search</h2><br>
+            <div class="jumbotron text-center" style="height: 70vh;">
+                <div class="form-group row">
+                    <label for="word" class="col-sm-4 col-form-label mb-0">Keyword:</label>
+                    <div class="col-sm-6 ">
+                        <input id="word" name="word" class="form-control mb-0" type="text" placeholder="Enter a keyword to search hotels">
+                    </div>
+                </div><br>
+                <div class="form-group">
+                    <input id="submit" class="btn btn-success mb-2 custom-btn-text-color border border-primary" type="submit" value="Search"></input>
+                </div>
+            </div>
         </form>
         <form method="get" action="/home">
-                <input type="submit" value="Back" class="button">
+            <div class="form-group">
+                <input id="back" class="btn btn-success mb-2 custom-btn-text-color border border-primary" type="submit" value="Back"></input>
+            </div>
         </form>
-        </div>
     </body>
 </html>
