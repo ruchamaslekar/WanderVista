@@ -570,4 +570,81 @@ public class DatabaseHandler {
         }
         return  averageRating;
     }
+
+    public void createLoginTable() {
+        Statement statement;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            statement = dbConnection.createStatement();
+            statement.executeUpdate(PreparedStatements.CREATE_LOGIN_TABLE);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public void insertLastLoginDetails(String userid, String lastLogin) {
+        PreparedStatement statement;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            try {
+                statement = dbConnection.prepareStatement(PreparedStatements.INSERT_INTO_LOGIN_HISTORY);
+                statement.setString(1, userid);
+                statement.setString(2, lastLogin);
+                statement.executeUpdate();
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+    public void updateLastLoginDetails(String userid, String lastLogin) {
+        PreparedStatement statement;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            try {
+                statement = dbConnection.prepareStatement(PreparedStatements.UPDATE_LOGIN_HISTORY);
+                statement.setString(1, lastLogin);
+                statement.setString(2, userid);
+                statement.executeUpdate();
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public String getLastLoginDetails(String userid) {
+        PreparedStatement statement;
+        String lastLogin = "N/A";
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            try {
+                statement = dbConnection.prepareStatement(PreparedStatements.GET_LOGIN_DETAILS);
+                statement.setString(1, userid);
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    lastLogin = resultSet.getString("last_login");
+                }
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return lastLogin;
+    }
+    public String getUserByName(String username){
+        PreparedStatement statement;
+        String userid = "";
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            statement = dbConnection.prepareStatement(PreparedStatements.GET_USER_BY_NAME);
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                userid = resultSet.getString("userid");
+            }
+            statement.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return  userid;
+    }
 }
