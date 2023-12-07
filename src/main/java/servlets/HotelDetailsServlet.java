@@ -27,6 +27,7 @@ public class HotelDetailsServlet extends HttpServlet {
             response.sendRedirect("/login");
         }else {
             String hotelName = request.getParameter("hotelName");
+            PrintWriter out = response.getWriter();
             DatabaseHandler handler = DatabaseHandler.getInstance();
             Hotel hotel = handler.getHotelByName(hotelName);
             String hotelId = hotel.getHotelId();
@@ -35,7 +36,15 @@ public class HotelDetailsServlet extends HttpServlet {
             double averageRating = handler.getAverageReviews(hotel.getHotelId());
             String expediaLink = "https://www.expedia.com/" + city + "-Hotels-" + hotelName + ".h" + hotelId + ".Hotel-Information";
             response.setContentType("text/html");
-            PrintWriter out = response.getWriter();
+            String userid = handler.getUserByName((String) session.getAttribute("username"));
+            System.out.println(userid);
+            int visitCount = handler.getExpediaPageVisitCount(userid,hotelId);
+            System.out.println(visitCount);
+            if (visitCount == 0) {
+                handler.insertExpediaHistory(userid, hotelId, hotel.getHotelName(), expediaLink);
+            } else{
+                handler.updateExpediaHistory(userid,hotelId);
+            }
             if (hotel != null) {
                 ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
                 ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
