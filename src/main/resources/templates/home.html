@@ -58,7 +58,9 @@
         </ul>
         <h2>Home</h2>
         <div class="wrapper">
-
+            <div th:if="${lastLogin}" >
+                <td th:text="${lastLogin}"></td>
+            </div>
             <form method="get" action="/hotelSearch">
                 <input type="submit" value="Hotel Search" class="button">
             </form>
