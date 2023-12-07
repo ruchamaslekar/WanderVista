@@ -23,11 +23,13 @@ public class HomeServlet extends HttpServlet {
         if (session.getAttribute("username") == null) {
             response.sendRedirect("/login");
         } else {
+            String lastLoginMessage = (String) session.getAttribute("lastLoginMessage");
             PrintWriter out = response.getWriter();
             response.setContentType("text/html");
             response.setStatus(HttpServletResponse.SC_OK);
             ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
             ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
+            thymeleafRenderer.setVariable("lastLogin",lastLoginMessage);
             thymeleafRenderer.render("home", out);
         }
     }
