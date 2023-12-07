@@ -53,7 +53,7 @@ public class RegistrationServlet extends HttpServlet {
             ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
             ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
             thymeleafRenderer.setVariable("message",message);
-            thymeleafRenderer.render("login", out);
+            thymeleafRenderer.render("register", out);
         } else {
             ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
             ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
