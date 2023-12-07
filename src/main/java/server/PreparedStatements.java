@@ -119,4 +119,23 @@ public class PreparedStatements {
             "SELECT userid FROM users WHERE username like ?";
 
     public static final String UPDATE_LOGIN_HISTORY= "UPDATE login_history SET last_login=? WHERE userid=?";
+
+    public static final String CREATE_EXPEDIA_HISTORY_TABLE = "CREATE TABLE expedia_history(" +
+            "userid varchar(64) NOT NULL, " +
+            "hotel_id varchar(64) NOT NULL, " +
+            "hotel_name varchar(64) NOT NULL, "+
+            "hotel_link varchar(1000) NOT NULL, " +
+            "visit_count int NOT NULL, " +
+            "PRIMARY KEY(userid, hotel_id));";
+    public static final String GET_EXPEDIA_HISTORY = "SELECT * FROM expedia_history WHERE userid=? order by visit_count desc;";
+
+    public static final String INSERT_INTO_EXPEDIA_HISTORY_TABLE = "INSERT INTO expedia_history (userid, hotel_id, hotel_name, hotel_link, visit_count) VALUES (?, ?, ?, ?, ?)";
+
+    public static final String GET_EXPEDIA_VISIT_COUNT = "SELECT visit_count FROM expedia_history where userid=? and hotel_id=?";
+
+    public static final String UPDATE_EXPEDIA_HISTORY_TABLE = "UPDATE expedia_history SET visit_count=visit_count+1 where userid=? and hotel_id=?";
+
+    public static final String DELETE_FROM_EXPEDIA_HISTORY_TABLE = "DELETE FROM expedia_history WHERE userid=?;";
+
 }
+
