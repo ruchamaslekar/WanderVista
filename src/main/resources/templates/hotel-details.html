@@ -2,177 +2,122 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <title>TravelHelper</title>
     </head>
     <style>
         body {
-            font-family: "Times New Roman", Times, serif;
-            background-color: white;
+                font-family: "Times New Roman", Times, serif;
+                background-color: white;
         }
-        ul {
-            margin: 20;
-            padding: 0;
+        .custom-btn-text-color {
+            color: #000;
+        }
+        .custom-jumbotron {
+            width: 100%;
+            height: 800%;
+            padding-left: 50px;
+            padding-top: 20px;
+            border: 1px solid black;
+       }
+        h2 {
+            text-align: center;
+        }
+        .custom-navbar {
+            margin-left: 50 px;
+            padding: 30 px;
+            padding-bottom: 30 px;
             overflow: hidden;
             background-color: #6dae67;
-            min-height: 40px;
-            border: 1px solid black;
-        }
-        .container {
-            padding: 16px;
-            background-color: white;
-        }
-        .button-container {
-            display: flex;
-            align-items: center;
-        }
-        .button {
-            background-color: red;
+            min-height: 50px;
+            font-size:130%;
             color: black;
-            border: 1px solid black;
-            padding: 10px 20px;
-            margin-right: 5px;
-            cursor: pointer;
-            width: 160px;
         }
-        .search-box {
-            padding: 10px;
-            border: 1px solid black;
-            font-size: 15px;
-            width: 120px;
-            size: 40px;
-        }
-        .search-button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            font-family: "Times New Roman", Times, serif;
-        }
-        table, th, td {
-            border: 1px solid black;
-            font-family: "Times New Roman", Times, serif;
-        }
-        th, td {
-            text-align: left;
-            padding: 8px;
-            font-family: "Times New Roman", Times, serif;
-        }
-        th {
-            background-color: #6dae67;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        tr:hover {
-            background-color: #e0e0e0;
-        }
-        .button {
-            background-color: #6dae67;
+        .custom-navbar .navbar-nav > li > a {
             color: black;
-            border: 1px solid black;
-            padding: 10px 20px;
-            margin-left: 10px;
-            margin-top: 10px;
-            cursor: pointer;
-            font-family: "Times New Roman", Times, serif;
         }
-        .required::after {
-            content: " *";
-            color: red;
+        .custom-navbar .navbar-nav > li > a:hover {
+            color: #ffffff;
         }
-        h1 {
-            text-align: left;
-            font-family: "Times New Roman", Times, serif;
-        }
-        a {
-            color: black;
-            margin-right: 20px;
-            margin-left: 10px;
-        }
-        .search-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        .search-form {
-            width: 200px;
-            margin: 10 auto;
-        }
-        input[type=text], input[type=password] ,input[type=email]{
-            width: 30%;
-            padding: 15px;
-            margin: 5px 0 22px 0;
-            display: inline-block;
-            border: 1 px black;
-            background: white;
-            font-family: "Times New Roman", Times, serif;
+        .custom-table {
+            margin-left: -150px;
+            margin-right: -150px;
         }
     </style>
     <body>
-        <ul th:fragment="userNavBar">
-            <a href="/home">Home</a>
-            <a style="float:right"/> <a class="active" href="/logout">Logout</a>
-        </ul>
+        <nav class="navbar navbar-default custom-navbar">
+            <div class="container-fluid d-flex justify-content-end">
+                <ul class="nav navbar-nav">
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/hotelSearch">Hotel Search</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                </ul>
+            </div>
+        </nav>
         <h2>Hotel Details</h2>
         <form>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Address</th>
-                        <th>Average Rating</th>
-                        <th>Expedia Link</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <td th:text="${hotel.hotelId}"></td>
-                    <td th:text="${hotel.hotelName }"></td>
-                    <td th:text="${hotel.address + ', ' + hotel.city + ', ' + hotel.state + ', ' + hotel.country}"></td>
-                    <td th:text="${averageRating}"></td>
-<!--                    <td th:text="${expediaLink}"></td>-->
-                   <td><a th:href="${expediaLink}" target="_blank">Go to Expedia</a></td>
-                </tbody>
-            </table><br><br>
+            <div class="container">
+                <div class="table-responsive custom-table">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Average Rating</th>
+                                <th>Expedia Link</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <td th:text="${hotel.hotelId}"></td>
+                            <td th:text="${hotel.hotelName }"></td>
+                            <td th:text="${hotel.address + ', ' + hotel.city + ', ' + hotel.state + ', ' + hotel.country}"></td>
+                            <td th:text="${averageRating}"></td>
+                           <td><a th:href="${expediaLink}" target="_blank">Go to Expedia</a></td>
+                        </tbody>
+                    </table>
+                </div>
+            </div><br><br>
             <h2>Reviews</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Rating</th>
-                        <th>Title</th>
-                        <th>Text</th>
-                        <th>Username</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="review : ${reviews}">
-                        <td th:text="${review.reviewId}"></td>
-                        <td th:text="${review.ratingOverall}"></td>
-                        <td th:text="${review.title}"></td>
-                        <td th:text="${review.reviewText}"></td>
-                        <td th:text="${review.userNickname}"></td>
-                        <td th:text="${review.date}"></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="container">
+                <div class="table-responsive custom-table">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Rating</th>
+                                <th>Title</th>
+                                <th>Text</th>
+                                <th>Username</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="review : ${reviews}">
+                                <td th:text="${review.reviewId}"></td>
+                                <td th:text="${review.ratingOverall}"></td>
+                                <td th:text="${review.title}"></td>
+                                <td th:text="${review.reviewText}"></td>
+                                <td th:text="${review.userNickname}"></td>
+                                <td th:text="${review.date}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <input type="hidden" name="hotelId" th:value="${hotel.hotelId}" />
             <input type="hidden" name="hotelName" th:value="${hotel.hotelName}" />
-            <div class="form-actions">
-                <input type="submit" value="Add Reviews" class="button" formaction="/addReviews">
-                <input type="submit" value="Edit Reviews" class="button" formaction="/deleteReviews">
-            </div>
-        </form>
+            <input type="submit" value="Add Reviews" class="btn btn-success mb-2 custom-btn-text-color border border-primary" formaction="/addReviews">
+            <input type="submit" value="Edit Reviews" class="btn btn-success mb-2 custom-btn-text-color border border-primary" formaction="/deleteReviews">
+        </form><br>
         <form method = "get" action="/hotels">
             <input type="hidden" name="word" th:value="${word}" />
             <div class="form-actions">
-                <input type="submit" value="Back" class="button">
+                <div class="form-group">
+                    <input id="back" class="btn btn-success mb-2 custom-btn-text-color border border-primary" type="submit" value="Back"></input>
+                </div>
             </div>
         </form>
     </body>
