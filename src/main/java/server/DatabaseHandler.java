@@ -647,4 +647,119 @@ public class DatabaseHandler {
         }
         return  userid;
     }
+
+    public void createExpediaHistoryTable() {
+        Statement statement;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            statement = dbConnection.createStatement();
+            statement.executeUpdate(PreparedStatements.CREATE_EXPEDIA_HISTORY_TABLE);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+    public List<List<String>> getExpediaVisitHistory(String userid) {
+        List<List<String>> visitHistory = new ArrayList<>();
+        PreparedStatement statement;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            try {
+                statement = dbConnection.prepareStatement(PreparedStatements.GET_EXPEDIA_HISTORY);
+                statement.setString(1, userid);
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    String hotelName = resultSet.getString("hotel_name");
+                    String hotelLink = resultSet.getString("hotel_link");
+                    String visitCount = resultSet.getString("visit_count");
+                    List<String> hotelPageVisitDetails = new ArrayList<>();
+                    hotelPageVisitDetails.add(hotelName);
+                    hotelPageVisitDetails.add(hotelLink);
+                    hotelPageVisitDetails.add(visitCount);
+                    visitHistory.add(hotelPageVisitDetails);
+                }
+
+            } catch (Exception ex) {
+                System.out.println(ex);
+                visitHistory = null;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            visitHistory = null;
+        }
+        return visitHistory;
+    }
+
+    public void insertExpediaHistory(String userid, String hotelId, String hotelName, String hotelLink) {
+        PreparedStatement statement;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            try {
+                statement = dbConnection.prepareStatement(PreparedStatements.INSERT_INTO_EXPEDIA_HISTORY_TABLE);
+                statement.setString(1, userid);
+                statement.setString(2, hotelId);
+                statement.setString(3, hotelName);
+                statement.setString(4, hotelLink);
+                statement.setInt(5, 1);
+                statement.executeUpdate();
+                statement.close();
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public int getExpediaPageVisitCount(String userid, String hotelId) {
+        PreparedStatement statement;
+        int visitCount = 0;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            try {
+                statement = dbConnection.prepareStatement(PreparedStatements.GET_EXPEDIA_VISIT_COUNT);
+                statement.setString(1, userid);
+                statement.setString(2, hotelId);
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    visitCount = resultSet.getInt("visit_count");
+                }
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return visitCount;
+    }
+
+    public void updateExpediaHistory(String userid, String hotelId) {
+        PreparedStatement statement;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            try {
+                statement = dbConnection.prepareStatement(PreparedStatements.UPDATE_EXPEDIA_HISTORY_TABLE);
+                statement.setString(1, userid);
+                statement.setString(2, hotelId);
+                statement.executeUpdate();
+                statement.close();
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public void deleteExpediaHistory(String userid) {
+        PreparedStatement statement;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            try {
+                statement = dbConnection.prepareStatement(PreparedStatements.DELETE_FROM_EXPEDIA_HISTORY_TABLE);
+                statement.setString(1, userid);
+                statement.executeUpdate();
+                statement.close();
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+
+    }
+
 }
