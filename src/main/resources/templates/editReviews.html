@@ -1,175 +1,103 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>TravelHelper</title>
-</head>
-<style>
+    <head>
+      <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <title>TravelHelper</title>
+    </head>
+    <style>
         body {
-            font-family: "Times New Roman", Times, serif;
-            background-color: white;
+                font-family: "Times New Roman", Times, serif;
+                background-color: white;
         }
-        ul {
-            margin: 20;
-            padding: 0;
+        .custom-btn-text-color {
+            color: #000;
+        }
+        .custom-jumbotron {
+            width: 100 px;
+            height: 1500 px;
+            padding-left: 50px;
+            padding-top: 20px;
+       }
+        h2 {
+            text-align: center;
+        }
+        .custom-navbar {
+            margin-left: 50 px;
+            padding: 30 px;
+            padding-bottom: 30 px;
             overflow: hidden;
             background-color: #6dae67;
-            min-height: 40px;
-            border: 1px solid black;
-        }
-        .container {
-            padding: 16px;
-            background-color: white;
-        }
-        .button-container {
-            display: flex;
-            align-items: center;
-        }
-        .button {
-            background-color: red;
+            min-height: 50px;
+            font-size:130%;
             color: black;
-            border: 1px solid black;
-            padding: 10px 20px;
-            margin-right: 5px;
-            cursor: pointer;
-            width: 160px;
         }
-        .search-box {
-            padding: 10px;
-            border: 1px solid black;
-            font-size: 15px;
-            width: 120px;
-            size: 40px;
-        }
-        .search-button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            font-family: "Times New Roman", Times, serif;
-        }
-        table, th, td {
-            border: 1px solid black;
-            font-family: "Times New Roman", Times, serif;
-        }
-        th, td {
-            text-align: left;
-            padding: 8px;
-            font-family: "Times New Roman", Times, serif;
-        }
-        th {
-            background-color: #6dae67;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        tr:hover {
-            background-color: #e0e0e0;
-        }
-        .button {
-            background-color: #6dae67;
+        .custom-navbar .navbar-nav > li > a {
             color: black;
-            border: 1px solid black;
-            padding: 10px 20px;
-            margin-left: 10px;
-            margin-top: 10px;
-            cursor: pointer;
-            font-family: "Times New Roman", Times, serif;
         }
-        .required::after {
-            content: " *";
-            color: red;
+        .custom-navbar .navbar-nav > li > a:hover {
+            color: #ffffff;
         }
-        h1 {
-            text-align: left;
-            font-family: "Times New Roman", Times, serif;
-        }
-        a {
-            color: black;
-            margin-right: 20px;
-            margin-left: 10px;
-        }
-        .search-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        .search-form {
-            width: 200px;
-            margin: 10 auto;
-        }
-        input[type=text], input[type=password] ,input[type=email]{
-            width: 30%;
-            padding: 15px;
-            margin: 5px 0 22px 0;
-            display: inline-block;
-            border: 1 px black;
-            background: white;
-            font-family: "Times New Roman", Times, serif;
-        }
-        input[type=submit]{
-            background-color:#6dae67;
-            color: black;
-            padding: 13px;
-            width: 261px;
-            margin-top: 18px;
-            margin-left: 220px;
-            border: 1 px;
-            cursor: pointer;
-            font-size: 18px;
-            align-items: center;
-            font-family: "Times New Roman", Times, serif;
+        .custom-table {
+            margin-left: -150px;
+            margin-right: -150px;
         }
     </style>
-<body>
-<ul th:fragment="userNavBar">
-  <a href="/home">Home</a>
-  <a style="float:right"/> <a class="active" href="/logout">Logout</a>
-</ul>
-<h2>Edit Reviews</h2>
-<table>
-  <thead>
-  <tr>
-    <th>Id</th>
-    <th>Rating</th>
-    <th>Title</th>
-    <th>Text</th>
-    <th>Username</th>
-    <th>Date</th>
-    <th>Action</th>
-  </tr>
-  </thead>
-  <tbody>
-    <form method="post" action="/editReviews">
-      <td th:text="${review.reviewId}"></td>
-      <td><input type="text" name="ratingOverall" th:value="${review.ratingOverall}" /></td>
-      <td><input type="text" name="title" th:value="${review.title}" /></td>
-      <td><input type="text" name="reviewText" th:value="${review.reviewText}" /></td>
-      <td><input type="text" name="userNickname" th:value="${review.userNickname}" /></td>
-      <td><input type="text" name="date" th:value="${review.date}" /></td>
-      <td>
-          <input type="hidden" name="ratingOverall" th:value="${review.ratingOverall}" />
-          <input type="hidden" name="title" th:value="${review.title}" />
-          <input type="hidden" name="reviewText" th:value="${review.reviewText}" />
-          <input type="hidden" name="userNickname" th:value="${review.userNickname}" />
-          <input type="hidden" name="date" th:value="${review.date}" />
-          <input type="hidden" name="hotelId" th:value="${hotelId}">
-          <input type="hidden" name="reviewId" th:value="${review.reviewId}">
-          <button type="submit" name="save" class="button">Save</button>
-      </td>
-    </form>
-  </tbody>
-</table>
-<form method = "get" action="/hotelDetails">
-    <div class="form-actions">
-        <input type="hidden" name="hotelName" th:value="${hotelName}" />
-        <input type="submit" value="Back" class="button">
-    </div>
-</form>
-</body>
+    <body>
+        <nav class="navbar navbar-default custom-navbar">
+            <div class="container-fluid d-flex justify-content-end">
+                <ul class="nav navbar-nav">
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/hotelSearch">Hotel Search</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+        <h2>Edit Reviews</h2>
+        <div class="container">
+            <div class="table-responsive custom-table">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Rating</th>
+                            <th>Title</th>
+                            <th>Text</th>
+                            <th>Username</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <form method="post" action="/editReviews">
+                            <td th:text="${review.reviewId}"></td>
+                            <td><input type="text" name="ratingOverall" th:value="${review.ratingOverall}" /></td>
+                            <td><input type="text" name="title" th:value="${review.title}" /></td>
+                            <td><input type="text" name="reviewText" th:value="${review.reviewText}" /></td>
+                            <td><input type="text" name="userNickname" th:value="${review.userNickname}" /></td>
+                            <td><input type="text" name="date" th:value="${review.date}" /></td>
+                            <td>
+                                <input type="hidden" name="ratingOverall" th:value="${review.ratingOverall}" />
+                                <input type="hidden" name="title" th:value="${review.title}" />
+                                <input type="hidden" name="reviewText" th:value="${review.reviewText}" />
+                                <input type="hidden" name="userNickname" th:value="${review.userNickname}" />
+                                <input type="hidden" name="date" th:value="${review.date}" />
+                                <input type="hidden" name="hotelId" th:value="${hotelId}">
+                                <input type="hidden" name="reviewId" th:value="${review.reviewId}">
+                                <button type="submit" name="save" class="btn btn-success mb-2 custom-btn-text-color border border-primary">Save</button>
+                            </td>
+                        </form>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <form method = "get" action="/hotelDetails">
+            <div class="form-actions">
+                <input type="hidden" name="hotelName" th:value="${hotelName}" />
+                <input type="submit" value="Back" class="btn btn-success mb-2 custom-btn-text-color border border-primary">
+            </div>
+        </form>
+    </body>
 </html>
