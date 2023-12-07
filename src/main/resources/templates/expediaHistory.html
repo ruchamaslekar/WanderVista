@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <title>TravelHelper</title>
+    </head>
+    <style>
+        body {
+                font-family: "Times New Roman", Times, serif;
+                background-color: white;
+        }
+        .custom-btn-text-color {
+            color: #000;
+        }
+        .custom-jumbotron {
+            width: 100%;
+            height: 800%;
+            padding-left: 50px;
+            padding-top: 20px;
+            border: 1px solid black;
+       }
+        h2 {
+            text-align: center;
+        }
+        .custom-navbar {
+            margin-left: 50 px;
+            padding: 30 px;
+            padding-bottom: 30 px;
+            overflow: hidden;
+            background-color: #6dae67;
+            min-height: 50px;
+            font-size:130%;
+            color: black;
+        }
+        .custom-navbar .navbar-nav > li > a {
+            color: black;
+        }
+        .custom-navbar .navbar-nav > li > a:hover {
+            color: #ffffff;
+        }
+        .custom-table {
+            margin-left: -150px;
+            margin-right: -150px;
+        }
+    </style>
+    <body>
+        <nav class="navbar navbar-default custom-navbar">
+            <div class="container-fluid d-flex justify-content-end">
+                <ul class="nav navbar-nav">
+                  <li><a href="/home">Home</a></li>
+                  <li><a href="/hotelSearch">Hotel Search</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+        <h2>Expedia History</h2>
+        <div class="container">
+            <div class="table-responsive custom-table">
+                <form method="post" action="/expediaHistory">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Hotel Name</th>
+                                <th>Link</th>
+                                <th>Visit count</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="row : ${list}">
+                                <td th:text="${row[0]}"></td>
+                                <td th:text="${row[1]}"></td>
+                                <td th:text="${row[2]}"></td>
+                            </tr>
+                      </tbody>
+                    </table>
+                    <div class="form-group">
+                        <input id="delete" class="btn btn-danger" type="submit" value="Clear"></input>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="container">
+            <div class="table-responsive custom-table">
+                <form method="get" action="/home">
+                    <div class="form-actions">
+                        <div class="form-group">
+                            <input id="back" class="btn btn-success mb-2 custom-btn-text-color border border-primary" type="submit" value="Back"></input>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
