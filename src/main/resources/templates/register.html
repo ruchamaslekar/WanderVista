@@ -106,6 +106,9 @@
             <div th:if="${passError}">
                 <large class="incorrect">Password does not meet requirements.Please try again</large>
             </div>
+            <div th:if="${message}">
+                <large class="incorrect">User with these credentials already exists</large>
+            </div>
             <label for="username">Username:<span class="required"></span></label>
             <input type="text" id="username" name="username" placeholder="Enter Username" required/><br>
             <label for="password">Password:<span class="required"></span></label>
