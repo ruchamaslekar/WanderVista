@@ -29,6 +29,7 @@ public class HomeServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_OK);
             ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
             ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
+            thymeleafRenderer.setVariable("username",session.getAttribute("username"));
             thymeleafRenderer.setVariable("lastLogin",lastLoginMessage);
             thymeleafRenderer.render("home", out);
         }
