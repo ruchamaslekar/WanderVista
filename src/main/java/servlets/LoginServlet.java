@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import javax.servlet.http.HttpSession;
 
 /** Servlet handles /login requests */
@@ -52,8 +57,20 @@ public class LoginServlet extends HttpServlet {
                 PrintWriter out = response.getWriter();
                 DatabaseHandler dbHandler = DatabaseHandler.getInstance();
                 boolean flag = dbHandler.authenticateUser(username, password);
-                session.setAttribute("username", username);
                 if(flag) {
+                    session.setAttribute("username", username);
+                    String userid = dbHandler.getUserByName(username);
+                    String lastLogin = dbHandler.getLastLoginDetails(userid);
+                    if(lastLogin.equals("N/A")){
+                        session.setAttribute("lastLoginMessage", "You have not logged in before");
+                        dbHandler.insertLastLoginDetails(userid, String.valueOf(LocalDateTime.now()));
+                    } else{
+                        LocalDateTime lastLoginDateTime = LocalDateTime.parse(lastLogin);
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mma, MM:dd:yyyy");
+                        String formattedLastLogin = lastLoginDateTime.format(formatter);
+                        session.setAttribute("lastLoginMessage", "Last login: " + formattedLastLogin);
+                        dbHandler.updateLastLoginDetails(userid,String.valueOf(LocalDateTime.now()));
+                    }
                     response.sendRedirect("/home");
                 } else {
                     String error = "Error logging in ";
