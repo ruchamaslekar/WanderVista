@@ -7,18 +7,17 @@
     </head>
     <style>
         body {
-                font-family: "Times New Roman", Times, serif;
-                background-color: white;
+            font-family: "Times New Roman", Times, serif;
+            background-color: white;
         }
         .custom-btn-text-color {
             color: #000;
         }
-        .custom-jumbotron {
-            width: 100 px;
-            height: 1500 px;
-            padding-left: 50px;
-            padding-top: 20px;
-       }
+        .jumbotron {
+            margin-top: 20px;
+            min-height: 600px;
+            padding: 30px;
+        }
         h2 {
             text-align: center;
         }
@@ -34,67 +33,98 @@
         }
         .custom-navbar .navbar-nav > li > a {
             color: black;
+            transition: background-color 0.3s;
         }
         .custom-navbar .navbar-nav > li > a:hover {
-            color: #ffffff;
+            color: black;
+            background-color: white;
         }
         .custom-table {
             margin-left: -150px;
             margin-right: -150px;
         }
-    </style>
+        .table-striped tbody tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
 
+        .table-striped thead {
+            background-color: #6dae67;
+            color: white;
+            text-color: black;
+        }
+        .table-striped th,td {
+            color: black
+        }
+        .custom-label {
+            font-size: 15px;
+            margin-left: -50px;
+        }
+        .custom-textbox {
+            width: 120%;
+            padding: 8px;
+            font-size: 14px;
+        }
+        .form-group-row-margin {
+             margin-top: 50px;
+        }
+    </style>
     <body>
         <nav class="navbar navbar-default custom-navbar">
             <div class="container-fluid d-flex justify-content-end">
                 <ul class="nav navbar-nav">
                     <li><a href="/home">Home</a></li>
                     <li><a href="/hotelSearch">Hotel Search</a></li>
+                    <li><a href="/expediaHistory">Expedia History</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
                 </ul>
             </div>
         </nav>
-        <h2>Add Reviews</h2>
         <div class="container">
-            <div class="jumbotron text-center custom-jumbotron">
-            <form method="post" action="/addReviews">
-                <div class="form-group row">
-                    <label for="rating" class="col-sm-4 col-form-label">Rating:</label>
-                    <div class="col-sm-7">
-                        <input id="rating" name="rating" class="form-control" type="text" placeholder="rating" required>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="jumbotron text-center">
+                        <h2>Add Reviews</h2>
+                        <form method="post" action="/addReviews">
+                            <div class="form-group-row-margin">
+                                <label for="rating" class="col-sm-4 custom-label">Rating:</label>
+                                <div class="col-sm-7">
+                                    <input id="rating" name="rating" class="form-control custom-textbox" type="text" placeholder="rating" required>
+                                </div>
+                            </div><br>
+                            <div class="form-group-row-margin">
+                                <label for="title" class="col-sm-4 custom-label">Title:</label>
+                                <div class="col-sm-7">
+                                    <input id="title" name="title" class="form-control custom-textbox" type="text" placeholder="title" required>
+                                </div>
+                            </div><br>
+                            <div class="form-group-row-margin">
+                                <label for="reviewText" class="col-sm-4 custom-label">ReviewText:</label>
+                                <div class="col-sm-7">
+                                    <input id="reviewText" name="reviewText" class="form-control custom-textbox" type="text" placeholder="reviewText" required>
+                                </div>
+                            </div><br>
+                            <div class="form-group-row-margin">
+                                <label for="hotelId" class="col-sm-4 custom-label">HotelId:</label>
+                                <div class="col-sm-7">
+                                    <input id="hotelId" name="hotelId" class="form-control custom-textbox" type="text" th:value="${hotelId}">
+                                </div>
+                            </div><br>
+                            <div class="form-group-row-margin">
+                                <input id="add" class="btn btn-success mb-2 custom-btn-text-color border border-primary" type="submit" value="Add"></input>
+                            </div>
+                        </form>
+                        <form method = "get" action="/hotelDetails">
+                            <div class="form-group-row-margin">
+                                <input type="hidden" name="hotelName" th:value="${hotelName}" />
+                                <input type="submit" value="Back" class="btn btn-success mb-2 custom-btn-text-color border border-primary">
+                            </div>
+                        </form>
                     </div>
-                </div><br>
-                <div class="form-group row">
-                    <label for="title" class="col-sm-4 col-form-label">Title:</label>
-                    <div class="col-sm-7">
-                        <input id="title" name="rating" class="form-control" type="text" placeholder="title" required>
-                    </div>
-                </div><br>
-                <div class="form-group row">
-                    <label for="reviewText" class="col-sm-4 col-form-label">ReviewText:</label>
-                    <div class="col-sm-7">
-                        <input id="reviewText" name="reviewText" class="form-control" type="text" placeholder="reviewText" required>
-                    </div>
-                </div><br>
-                <div class="form-group row">
-                    <label for="hotelId" class="col-sm-4 col-form-label">HotelId:</label>
-                    <div class="col-sm-7">
-                        <input id="hotelId" name="hotelId" class="form-control" type="text" th:value="${hotelId}">
-                    </div>
-                </div><br>
-                <div class="form-group">
-                    <input id="add" class="btn btn-success mb-2 custom-btn-text-color border border-primary" type="submit" value="Add"></input>
                 </div>
-            </form>
-            <form method = "get" action="/hotelDetails">
-                <div class="form-actions">
-                    <input type="hidden" name="hotelName" th:value="${hotelName}" />
-                    <input type="submit" value="Back" class="btn btn-success mb-2 custom-btn-text-color border border-primary">
-                </div>
-            </form>
-        </div>
+            </div>
         </div>
     </body>
 </html>

@@ -34,13 +34,27 @@
         }
         .custom-navbar .navbar-nav > li > a {
             color: black;
+            transition: background-color 0.3s;
         }
         .custom-navbar .navbar-nav > li > a:hover {
-            color: #ffffff;
+            color: black;
+            background-color: white;
         }
         .custom-table {
             margin-left: -150px;
             margin-right: -150px;
+        }
+        .table-striped tbody tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+
+        .table-striped thead {
+            background-color: #6dae67;
+            color: white;
+            text-color: black;
+        }
+        .table-striped th,td {
+            color: black
         }
     </style>
     <body>
@@ -49,6 +63,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/home">Home</a></li>
                     <li><a href="/hotelSearch">Hotel Search</a></li>
+                    <li><a href="/expediaHistory">Expedia History</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
@@ -93,11 +108,15 @@
                 </table>
             </div>
         </div>
-        <form method = "get" action="/hotelDetails">
-            <div class="form-actions">
-                <input type="hidden" name="hotelName" th:value="${hotelName}" />
-                <input type="submit" value="Back" class="btn btn-success mb-2 custom-btn-text-color border border-primary">
+        <div class="container">
+            <div class="table-responsive custom-table">
+                <form method = "get" action="/hotelDetails">
+                    <div class="form-actions">
+                        <input type="hidden" name="hotelName" th:value="${hotelName}" />
+                        <input type="submit" value="Back" class="btn btn-success mb-2 custom-btn-text-color border border-primary">
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </body>
 </html>

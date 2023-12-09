@@ -13,13 +13,6 @@
         .custom-btn-text-color {
             color: #000;
         }
-        .custom-jumbotron {
-            width: 100%;
-            height: 800%;
-            padding-left: 50px;
-            padding-top: 20px;
-            border: 1px solid black;
-       }
         h2 {
             text-align: center;
         }
@@ -35,9 +28,25 @@
         }
         .custom-navbar .navbar-nav > li > a {
             color: black;
+            transition: background-color 0.3s;
         }
         .custom-navbar .navbar-nav > li > a:hover {
-            color: #ffffff;
+            color: black;
+            background-color: white;
+        }
+        .jumbotron {
+            margin-top: 40px;
+            min-height: 600px;
+            padding: 20px;
+        }
+        .custom-label {
+            font-size: 15px;
+            margin-left: -50px;
+        }
+        .custom-textbox {
+            width: 120%;
+            padding: 8px;
+            font-size: 14px;
         }
     </style>
     <body>
@@ -46,30 +55,36 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/home">Home</a></li>
                     <li><a href="/hotelSearch">Hotel Search</a></li>
+                    <li><a href="/expediaHistory">Expedia History</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
                 </ul>
             </div>
         </nav>
-        <form method="get" action="/hotels">
-            <h2>Hotel Search</h2><br>
-            <div class="jumbotron text-center" style="height: 70vh;">
-                <div class="form-group row">
-                    <label for="word" class="col-sm-4 col-form-label mb-0">Keyword:</label>
-                    <div class="col-sm-6 ">
-                        <input id="word" name="word" class="form-control mb-0" type="text" placeholder="Enter a keyword to search hotels">
-                    </div>
-                </div><br>
-                <div class="form-group">
-                    <input id="submit" class="btn btn-success mb-2 custom-btn-text-color border border-primary" type="submit" value="Search"></input>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <form method="get" action="/hotels">
+                        <div class="jumbotron text-center">
+                            <div class="page-header text-center">
+                                <h2>Hotel Search</h2>
+                            </div>
+                            <div class="form-group row">
+                                <label for="word" class="col-sm-5 custom-label">Keyword:</label>
+                                <div class="col-sm-6 ">
+                                    <input id="word" name="word" class="form-control custom-textbox" type="text" placeholder="Enter a keyword to search hotels">
+                                </div>
+                            </div><br>
+                            <div class="form-group">
+                                <input id="submit" class="btn btn-success mb-2 custom-btn-text-color border border-primary" type="submit" value="Search">
+                                <input id="back" class="btn btn-success mb-2 custom-btn-text-color border border-primary" type="submit" formaction="/home" value="Back">
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </form>
-        <form method="get" action="/home">
-            <div class="form-group">
-                <input id="back" class="btn btn-success mb-2 custom-btn-text-color border border-primary" type="submit" value="Back"></input>
-            </div>
-        </form>
+        </div>
     </body>
 </html>

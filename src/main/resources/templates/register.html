@@ -92,11 +92,10 @@
         .custom-btn-text-color {
             color: #000;
         }
-        .custom-jumbotron {
-            width: 100%;
-            height: 800%;
-            padding-left: 50px;
-            padding-top: 20px;
+        .jumbotron {
+            margin-top: 40px;
+            min-height: 600px;
+            padding: 20px;
         }
         h2 {
             text-align: center;
@@ -123,32 +122,39 @@
         }
     </style>
     <body>
-        <h2 class="text-center">Register</h2>
         <div class="container">
-            <div class="jumbotron text-center custom-jumbotron">
-                <form id="registrationForm" method="post" action="/register" onsubmit="return validatePassword()">
-                    <div th:if="${passError}" class="alert alert-error">
-                        <div class="alert alert-danger" role="alert">Password does not meet requirements. Please try again</div>
-                    </div>
-                    <div th:if="${message}" class="alert alert-error">
-                        <div class="alert alert-danger" role="alert">User with these credentials already exists</div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="username" class="col-sm-4 col-form-label">Username:</label>
-                        <div class="col-sm-7">
-                            <input id="username" name="username" class="form-control" type="text" placeholder="Enter username" required>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="jumbotron text-center">
+                        <div class="page-header text-center">
+                            <h2>Register</h2>
                         </div>
-                    </div><br>
-                    <div class="form-group row">
-                    <label for="password" class="col-sm-4 col-form-label">Password:</label>
-                    <div class="col-sm-7">
-                        <input id="password" name="password" class="form-control" type="password" placeholder="Enter password" required>
+                        <form id="registrationForm" method="post" action="/register" onsubmit="return validatePassword()">
+                            <div th:if="${passError}" class="alert alert-error">
+                                <div class="alert alert-danger" role="alert">Password does not meet requirements. Please try again</div>
+                            </div>
+                            <div th:if="${message}" class="alert alert-error">
+                                <div class="alert alert-danger" role="alert">User with these credentials already exists</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="username" class="col-sm-4 col-form-label">Username:</label>
+                                <div class="col-sm-7">
+                                    <input id="username" name="username" class="form-control" type="text" placeholder="Enter username" required>
+                                </div>
+                            </div><br>
+                            <div class="form-group row">
+                            <label for="password" class="col-sm-4 col-form-label">Password:</label>
+                            <div class="col-sm-7">
+                                <input id="password" name="password" class="form-control" type="password" placeholder="Enter password" required>
+                            </div>
+                            </div><br>
+                            <small class="alert alert-danger" role="alert">* Password must have an uppercase letter and a digit</small><br><br>
+                            <input type="submit" value="Register" class="btn btn-success mb-2 custom-btn-text-color">
+                            <button type="button" onclick="window.location.href='/login'" class="btn btn-success mb-2 custom-btn-text-color">Back</button>
+                        </form>
                     </div>
-                    </div><br>
-                    <small class="alert alert-danger" role="alert">* Password must have an uppercase letter and a digit</small><br><br>
-                    <input type="submit" value="Register" class="btn btn-success mb-2 custom-btn-text-color">
-                    <button type="button" onclick="window.location.href='/login'" class="btn btn-success mb-2 custom-btn-text-color">Back</button>
-                </form>
+                </div>
             </div>
         </div>
         <script>
