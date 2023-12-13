@@ -7,35 +7,42 @@
             function fetchReviews(hotelName, username, isPageLoad, isNext){
                 var requestString = '/fetchReviews?hotelName='+ hotelName;
                 var pageNumber = 0;
-                if(isPageLoad==true){
+                 var currentPageElement = document.getElementById('currentPage');
+                 if (currentPageElement) {
+                     var offset = currentPageElement.textContent.trim();
+                    console.log(offset);
+                    console.log(currentPageElement);
+                 }
+                 if(isPageLoad==true){
                     requestString = requestString + '&offset=0&limit=10';
-                }
-                else{
-                    if(isNext==true){
+                 }
+                 else{
+                     if(isNext==true){
                         pageNumber = Number(document.getElementById('currentPage').textContent) + 1;
-                    }
-                    else{
-                        if(Number(document.getElementById('currentPage').textContent) - 1>=0){
+                        var offset = Number(pageNumber)*10;
+                        requestString = requestString + '&offset='+offset+'&limit=10';
+                     }
+                     else{
+                         if(Number(document.getElementById('currentPage').textContent) - 1>=0){
                             pageNumber = Number(document.getElementById('currentPage').textContent) - 1;
-                        }
-                    }
-                    var offset = Number(pageNumber)*10;
-                    requestString = requestString + '&offset='+offset+'&limit=10';
-                }
+                            var offset = Number(pageNumber)*10;
+                            requestString = requestString + '&offset='+offset+'&limit=10';
+                         }
+                     }
+                 }
                 fetch(requestString, {method :'get'}).
                     then(res => res.json()).
                     then(data => {
                     console.log(data);
                     if(data.success==true){
                         document.getElementById('currentPage').textContent  = pageNumber;
-                        var rows = "<thread><tr>"
+                        var rows = "<thead style= 'background-color: #6dae67; color: white;text-color: black;'><tr>"
                             +"<th>Title</th>"
                             +"<th>ReviewText</th>"
                             +"<th>Rating</th>"
                             +"<th>User</th>"
                             +"<th>Date</th>"
-                            +"<th>Action</th>"
-                            +"</tr>";
+                            +"</tr></thead>";
                         for (var i = 0; i < data.reviews.length; i++){
                              rows = rows + "<tr>" +
                             "<td>" + data.reviews[i].title + "</td>" +
@@ -43,16 +50,9 @@
                             "<td>" + data.reviews[i].overallRating + "</td>" +
                             "<td>" + data.reviews[i].user + "</td>" +
                             "<td>" + data.reviews[i].date + "</td>";
-        //                if(username==data.reviews[i].userNickname){
-        //                rows = rows + "<td><a href=\"/editReview?hotelName="+hotelName+"&reviewId="+data.reviews[i].review_Id+"\"class=\"btn btn-outline-warning\"><span class=\"glyphicon glyphicon-pencil\"></span></a>"+
-        //                "<a href=\"/deleteReview?hotelId="+hotelId+"&reviewId="+data.reviews[i].reviewId+"\"class=\"btn btn-outline-danger\"><span class=\"glyphicon glyphicon-trash\"></span></a></td>";
-        //                }
-        //                else{
-        //                rows = rows + "<td></td>";
-        //                }
-                          rows = rows +"</tr>";
+                            rows = rows +"</tr>";
                     }
-                        rows = rows +"</thread>";
+                        rows = rows +"</thead>";
                         document.getElementById('tablearea').innerHTML = rows;
                     }
                     else{
@@ -60,7 +60,7 @@
                             document.getElementById('currentPage').textContent = pageNumber - 1;
                         }
                         if(isPageLoad==true){
-                            var message = "<h1>No reviews found</h1>";
+                            var message = "<h3>No reviews found</h3>";
                             document.getElementById('currentPage').textContent = pageNumber;
                             document.getElementById('reviewContent').innerHTML = message;
                         }
@@ -76,8 +76,9 @@
             fetch(requestString, {method :'get'}).
             then(res => res.json()).
             then(data => {
-                let current_weather = "Current weather: \nTemperature: "+data.current_weather.temperature + " Wind Speed: " + data.current_weather.windspeed + " Wind Direction: " +data.current_weather.winddirection;
-                document.getElementById('currentWeather').innerHTML = current_weather;
+               document.getElementById("temperature").innerText = data.current_weather.temperature;
+               document.getElementById("windSpeed").innerText = data.current_weather.windspeed;
+               document.getElementById("windDirection").innerText = data.current_weather.winddirection;
             }).
             catch(err => {
                 console.log(err);
@@ -129,7 +130,6 @@
         .table-striped tbody tr:nth-child(odd) {
             background-color: #f2f2f2;
         }
-
         .table-striped thead {
             background-color: #6dae67;
             color: white;
@@ -140,16 +140,6 @@
         }
     </style>
     <body>
-    <script th:inline="javascript">
-    var hotelName = [[${hotel.hotelName}]];
-    var username = 'username';
-    var param1 = true;
-    var param2 = true;
-    fetchReviews(hotelName, username, param1, param2);
-    var latitude = [[${hotel.latitude}]];
-    var longitude = [[${hotel.longitude}]];
-    fetchWeatherData(latitude, longitude);
-    </script>
         <nav class="navbar navbar-default custom-navbar">
             <div class="container-fluid d-flex justify-content-end">
                 <ul class="nav navbar-nav">
@@ -176,6 +166,7 @@
                                 <th>latitude</th>
                                 <th>longitude</th>
                                 <th>Expedia Link</th>
+                                <th>Map Link</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -186,37 +177,35 @@
                             <td th:text="${hotel.latitude}"></td>
                             <td th:text="${hotel.longitude}"></td>
                             <td><a th:href="${expediaLink}" target="_blank">Go to Expedia</a></td>
+                            <td><a th:href="@{~/map(lat=${hotel.latitude}, lon=${hotel.longitude})}" target="_blank">Go to Map</a></td>
                         </tbody>
                     </table>
                 </div>
             </div><br>
             <h2>Weather</h2>
-            <p id="currentWeather" style="Times New Roman, Times, serif; font-size:14px;"></p>
+            <div class="container">
+            <div class="table-responsive custom-table">
+            <table id="weatherTable" class="table table-bordered table-striped" >
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>Temperature</td>
+                    <td id="temperature"></td>
+                </tr>
+                <tr>
+                    <td>Wind Speed</td>
+                    <td id="windSpeed"></td>
+                </tr>
+                <tr>
+                    <td>Wind Direction</td>
+                    <td id="windDirection"></td>
+                </tr>
+            </table>
             <h2>Reviews</h2>
-<!--            <div class="container">-->
-<!--                <div class="table-responsive custom-table">-->
-<!--                    <table class="table table-bordered table-striped">-->
-<!--                        <thead>-->
-<!--                            <tr>-->
-<!--                                <th>Id</th>-->
-<!--                                <th>Rating</th>-->
-<!--                                <th>Title</th>-->
-<!--                                <th>Text</th>-->
-<!--                                <th>Username</th>-->
-<!--                                <th>Date</th>-->
-<!--                            </tr>-->
-<!--                        </thead>-->
-<!--                        <tbody id="reviews-table-body">-->
-<!--                        <tr th:each="review : ${reviews}">-->
-<!--                            <td th:text="${review.reviewId}"></td>-->
-<!--                            <td th:text="${review.ratingOverall}"></td>-->
-<!--                            <td th:text="${review.title}"></td>-->
-<!--                            <td th:text="${review.reviewText}"></td>-->
-<!--                            <td th:text="${review.userNickname}"></td>-->
-<!--                            <td th:text="${review.date}"></td>-->
-<!--                        </tr>-->
-<!--                        </tbody>-->
-<!--                    </table>-->
                     <div class="container">
                         <div class="table-responsive custom-table">
                             <table class="table table-bordered table-striped" id="tablearea">
@@ -226,15 +215,25 @@
                     </div>
                     <div class="row text-center">
                         <div class="col-md-12">
-                            <a class="btn btn-info" th:attr="onclick='fetchReviews(\'' + ${hotel.hotelName} + '\', \'' + ${username} + '\', true, true)'">
+                            <a class="btn btn-info" th:attr="onclick='fetchReviews(\'' + ${hotel.hotelName} + '\', \'' + ${username} + '\', false, false)'">
                                 <span class="glyphicon glyphicon-arrow-left"></span> Prev
                             </a>
-                            <a id="currentPage" class="">0</a>
+                            <span id="currentPage">1</span>
                             <a class="btn btn-info" th:attr="onclick='fetchReviews(\'' + ${hotel.hotelName} + '\', \'' + ${username} + '\', false, true)'">
                                 <span class="glyphicon glyphicon-arrow-right"></span> Next
                             </a>
                         </div>
                     </div>
+                <script th:inline="javascript">
+                var latitude = [[${hotel.latitude}]];
+                var longitude = [[${hotel.longitude}]];
+                fetchWeatherData(latitude, longitude);
+                var hotelName = [[${hotel.hotelName}]];
+                var username = 'username';
+                var param1 = false;
+                var param2 = false;
+                fetchReviews(hotelName, username, param1, param2);
+                </script>
             <input type="hidden" name="hotelId" th:value="${hotel.hotelId}" />
             <input type="hidden" name="hotelName" th:value="${hotel.hotelName}" />
             <input type="submit" value="Add Reviews" class="btn btn-success mb-2 custom-btn-text-color border border-primary" formaction="/addReviews">
