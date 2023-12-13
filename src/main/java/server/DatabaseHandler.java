@@ -796,4 +796,56 @@ public class DatabaseHandler {
 
     }
 
+    public void createFavouriteHotelTable() {
+        Statement statement;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            System.out.println("dbConnection successful");
+            statement = dbConnection.createStatement();
+            statement.executeUpdate(PreparedStatements.CREATE_FAVOURITE_HOTEL_TABLE);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public Hotel getFavouriteHotel(String hotelId){
+        PreparedStatement statement;
+        Hotel hotel = null;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            statement = dbConnection.prepareStatement(PreparedStatements.GET_FAVOURITE_HOTEL);
+            statement.setString(1, hotelId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                hotelId = resultSet.getString("id");
+                String hotelName = resultSet.getString("name");
+                String hotelAddress = resultSet.getString("address");
+                String hotelLatitude = resultSet.getString("latitude");
+                String hotelLongitude = resultSet.getString("longitude");
+                String hotelCity = resultSet.getString("city");
+                String hotelState = resultSet.getString("state");
+                String hotelCountry = resultSet.getString("country");
+                hotel = new Hotel(hotelId, hotelName, hotelAddress, hotelLatitude, hotelLongitude, hotelCity, hotelState, hotelCountry);
+            }
+            statement.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return  hotel;
+    }
+
+    public void insertIntoFavouriteHotelsTable(String hotelId, String hotelName) throws SQLException {
+        PreparedStatement statement;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+                try {
+                    statement = dbConnection.prepareStatement(PreparedStatements.INSERT_INTO_FAVOURITE_HOTELS);
+                    statement.setString(1, hotelId);
+                    statement.setString(2, hotelName);
+                    statement.executeUpdate();
+                    statement.close();
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
 }
