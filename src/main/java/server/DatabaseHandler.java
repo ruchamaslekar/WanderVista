@@ -762,4 +762,38 @@ public class DatabaseHandler {
 
     }
 
+    public Set<Review> getLimitedReviews(String hotelId, String limit, String offset) {
+        Set<Review> reviewSet = new HashSet<>();
+        PreparedStatement statement;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            try {
+                statement = dbConnection.prepareStatement(PreparedStatements.GET_LIMITED_REVIEWS);
+                statement.setString(1, hotelId);
+                statement.setInt(2, Integer.parseInt(limit));
+                statement.setInt(3, Integer.parseInt(offset));
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    String reviewId = resultSet.getString("review_id");
+                    double rating = (Double.parseDouble(resultSet.getString("overall_rating")));
+                    String title = resultSet.getString("title");
+                    String reviewText = resultSet.getString("review_text");
+                    String userName = resultSet.getString("username");
+                    String date = resultSet.getString("submission_date");
+                    hotelId = resultSet.getString("hotel_id");
+                    reviewSet.add(
+                            new Review(reviewId,rating,title,reviewText,userName,date.trim(),hotelId)
+                    );
+                }
+            } catch (Exception ex) {
+                System.out.println(ex);
+                reviewSet = null;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            reviewSet = null;
+        }
+        return reviewSet;
+
+    }
+
 }
