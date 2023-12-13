@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class HotelDetailsServlet extends HttpServlet {
@@ -31,31 +32,29 @@ public class HotelDetailsServlet extends HttpServlet {
             DatabaseHandler handler = DatabaseHandler.getInstance();
             Hotel hotel = handler.getHotelByName(hotelName);
             String hotelId = hotel.getHotelId();
+            String username = (String) session.getAttribute("username");
             String city = hotel.getCity();
             List<Review> reviewList = handler.getReviewsById(hotel.getHotelId());
             double averageRating = handler.getAverageReviews(hotel.getHotelId());
+            DecimalFormat df = new DecimalFormat("#.##");
+            String formattedAverageRating = df.format(averageRating);
             String expediaLink = "https://www.expedia.com/" + city + "-Hotels-" + hotelName + ".h" + hotelId + ".Hotel-Information";
             response.setContentType("text/html");
             String userid = handler.getUserByName((String) session.getAttribute("username"));
-            System.out.println(userid);
             int visitCount = handler.getExpediaPageVisitCount(userid,hotelId);
-            System.out.println(visitCount);
             if (visitCount == 0) {
                 handler.insertExpediaHistory(userid, hotelId, hotel.getHotelName(), expediaLink);
             } else{
                 handler.updateExpediaHistory(userid,hotelId);
             }
-            if (hotel != null) {
-                ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
-                ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
-                thymeleafRenderer.setVariable("hotel", hotel);
-                thymeleafRenderer.setVariable("reviews", reviewList);
-                thymeleafRenderer.setVariable("averageRating", averageRating);
-                thymeleafRenderer.setVariable("expediaLink", expediaLink);
-                thymeleafRenderer.render("hotel-details", out);
-            } else {
-                out.println("<p>Hotel not found</p>");
-            }
+            ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
+            ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
+            thymeleafRenderer.setVariable("hotel", hotel);
+            thymeleafRenderer.setVariable("username", username);
+            thymeleafRenderer.setVariable("reviews", reviewList);
+            thymeleafRenderer.setVariable("averageRating", formattedAverageRating);
+            thymeleafRenderer.setVariable("expediaLink", expediaLink);
+            thymeleafRenderer.render("hotel-details", out);
         }
     }
 }
