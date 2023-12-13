@@ -43,6 +43,10 @@
             margin-left: -150px;
             margin-right: -150px;
         }
+        .table-striped thead {
+            background-color: #6dae67;
+            text-color: black;
+        }
     </style>
     <body>
         <nav class="navbar navbar-default custom-navbar">
@@ -66,13 +70,15 @@
                                 <th>Hotel Name</th>
                                 <th>Link</th>
                                 <th>Visit count</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="row : ${list}">
                                 <td th:text="${row[0]}"></td>
-                                <td th:text="${row[1]}"></td>
+                                <td>
+                                    <a th:href="${row[1]}" target="_blank" th:text="${row[1]}">Visit Hotel</a>
+                                </td>
+<!--                                <td th:text="${row[1]}"></td>-->
                                 <td th:text="${row[2]}"></td>
                             </tr>
                       </tbody>
