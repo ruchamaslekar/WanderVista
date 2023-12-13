@@ -84,6 +84,7 @@
                 console.log(err);
             });
         }
+
     </script>
     <title>TravelHelper</title>
     </head>
@@ -138,6 +139,10 @@
         .table-striped th,td {
             color: black
         }
+        .btn-success{
+            background-color: #6dae67;
+            color: black;
+        }
     </style>
     <body>
         <nav class="navbar navbar-default custom-navbar">
@@ -163,8 +168,6 @@
                                 <th>Name</th>
                                 <th>Address</th>
                                 <th>Average Rating</th>
-                                <th>latitude</th>
-                                <th>longitude</th>
                                 <th>Expedia Link</th>
                                 <th>Map Link</th>
                             </tr>
@@ -174,8 +177,6 @@
                             <td th:text="${hotel.hotelName}"></td>
                             <td th:text="${hotel.address + ', ' + hotel.city + ', ' + hotel.state + ', ' + hotel.country}"></td>
                             <td th:text="${averageRating}"></td>
-                            <td th:text="${hotel.latitude}"></td>
-                            <td th:text="${hotel.longitude}"></td>
                             <td><a th:href="${expediaLink}" target="_blank">Go to Expedia</a></td>
                             <td><a th:href="@{~/map(lat=${hotel.latitude}, lon=${hotel.longitude})}" target="_blank">Go to Map</a></td>
                         </tbody>
@@ -215,11 +216,11 @@
                     </div>
                     <div class="row text-center">
                         <div class="col-md-12">
-                            <a class="btn btn-info" th:attr="onclick='fetchReviews(\'' + ${hotel.hotelName} + '\', \'' + ${username} + '\', false, false)'">
+                            <a class="btn btn-info btn-success" th:attr="onclick='fetchReviews(\'' + ${hotel.hotelName} + '\', \'' + ${username} + '\', false, false)'">
                                 <span class="glyphicon glyphicon-arrow-left"></span> Prev
                             </a>
                             <span id="currentPage">1</span>
-                            <a class="btn btn-info" th:attr="onclick='fetchReviews(\'' + ${hotel.hotelName} + '\', \'' + ${username} + '\', false, true)'">
+                            <a class="btn btn-info btn-success" th:attr="onclick='fetchReviews(\'' + ${hotel.hotelName} + '\', \'' + ${username} + '\', false, true)'">
                                 <span class="glyphicon glyphicon-arrow-right"></span> Next
                             </a>
                         </div>
@@ -236,6 +237,7 @@
                 </script>
             <input type="hidden" name="hotelId" th:value="${hotel.hotelId}" />
             <input type="hidden" name="hotelName" th:value="${hotel.hotelName}" />
+            <input type="submit" value="Save Favourite" class="btn btn-success mb-2 custom-btn-text-color border border-primary" formaction="/favouriteHotel">
             <input type="submit" value="Add Reviews" class="btn btn-success mb-2 custom-btn-text-color border border-primary" formaction="/addReviews">
             <input type="submit" value="Edit Reviews" class="btn btn-success mb-2 custom-btn-text-color border border-primary" formaction="/deleteReviews">
             </div>
