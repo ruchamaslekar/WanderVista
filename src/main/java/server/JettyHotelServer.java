@@ -14,8 +14,6 @@ public class JettyHotelServer {
 		// FILL IN CODE, and add more classes as needed
 //		databaseHelper(args);
 
-
-
 		JettyServer server = new JettyServer();
 		server.addMapping("/login", LoginServlet.class);
 		server.addMapping("/register", RegistrationServlet.class);
@@ -28,6 +26,8 @@ public class JettyHotelServer {
 		server.addMapping("/deleteReviews", DeleteReviewsServlet.class);
 		server.addMapping("/editReviews", EditReviewsServlet.class);
 		server.addMapping("/expediaHistory", ExpediaHistoryServlet.class);
+		server.addMapping("/map", HotelMapServlet.class);
+		server.addMapping("/favouriteHotel", FavouriteHotelServlet.class);
 		server.addMapping("/logout", LogoutServlet.class);
 		server.start();
 	}
@@ -52,5 +52,8 @@ public class JettyHotelServer {
 		databaseHandler.createReviewsTable();
 		databaseHandler.insertIntoReviewsTable(reviewList);
 		databaseHandler.createLoginTable();
+		databaseHandler.createFavouriteHotelTable();
+		databaseHandler.createFavouriteHotelTable();
+
 	}
 }
