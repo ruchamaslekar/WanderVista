@@ -137,5 +137,7 @@ public class PreparedStatements {
 
     public static final String DELETE_FROM_EXPEDIA_HISTORY_TABLE = "DELETE FROM expedia_history WHERE userid=?;";
 
+    public static final String GET_LIMITED_REVIEWS = "SELECT * FROM reviews WHERE hotel_id=? limit ? offset ?;";
+
 }
 
