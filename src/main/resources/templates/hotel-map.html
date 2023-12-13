@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TravelHelper</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+<div id="map" style="height: 500px;"></div>
+<script>
+   function initializeMap(latitude, longitude) {
+      var lat = parseFloat(latitude);
+      var lon = parseFloat(longitude);
+      if (!isNaN(lat) && !isNaN(lon)) {
+         var map = L.map('map').setView([lat, lon], 15);
+         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+         }).addTo(map);
+         console.log('Map initialized successfully.');
+         return map;
+      } else {
+         console.error('Invalid latitude or longitude values in the database.');
+         return null;
+      }
+   }
+   function addMarker(map, latitude, longitude) {
+      var lat = parseFloat(latitude);
+      var lon = parseFloat(longitude);
+      if (!isNaN(lat) && !isNaN(lon)) {
+         L.marker([lat, lon]).addTo(map)
+            .bindPopup('Hotel Location');
+         console.log('Marker added successfully.');
+      } else {
+         console.error('Invalid latitude or longitude values in the database.');
+      }
+   }
+   function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, '\\$&');
+      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+         results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, ' '));
+   }
+   var latitude = getParameterByName('lat');
+   var longitude = getParameterByName('lon');
+   if (latitude !== null && longitude !== null) {
+      var map = initializeMap(latitude, longitude);
+      addMarker(map, latitude, longitude);
+   } else {
+      console.error('Latitude or longitude values are missing in the URL.');
+   }
+</script>
+</body>
+</html>
