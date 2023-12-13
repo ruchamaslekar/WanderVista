@@ -35,7 +35,8 @@ public class ReviewDetailsServlet extends HttpServlet {
             if (limit != null && !limit.isEmpty())
                 limit = StringEscapeUtils.escapeHtml4(limit);
             JsonHelper jsonResponseHelper = new JsonHelper();
-            JsonObject reviewJson = jsonResponseHelper.getAllReviewsInJsonFormat(hotel.getHotelId(), offset, limit);
+            System.out.println("offset"+offset);
+            JsonObject reviewJson = jsonResponseHelper.getAllReviewsInJsonFormat(hotel.getHotelId(), limit, offset);
             System.out.println(reviewJson.toString());
             PrintWriter out = response.getWriter();
             out.println(reviewJson);
