@@ -139,5 +139,15 @@ public class PreparedStatements {
 
     public static final String GET_LIMITED_REVIEWS = "SELECT * FROM reviews WHERE hotel_id=? limit ? offset ?;";
 
+    public static final String CREATE_FAVOURITE_HOTEL_TABLE =
+            "CREATE TABLE favourite_hotels (" +
+                    "hotel_id varchar(64) PRIMARY KEY, " +
+                    "hotel_name VARCHAR(64) NOT NULL);";
+
+    public static final String GET_FAVOURITE_HOTEL ="SELECT * FROM favourite_hotels where hotel_id =?";
+
+    public static final String INSERT_INTO_FAVOURITE_HOTELS = "INSERT INTO favourite_hotels(hotel_id, hotel_name)" +
+            "VALUES (?, ?);";
+
 }
 
