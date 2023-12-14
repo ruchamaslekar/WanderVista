@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -18,22 +19,34 @@ public class FetchHotelServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DatabaseHandler handler = DatabaseHandler.getInstance();
-        PrintWriter out = response.getWriter();
-        List<Hotel> hotels = handler.getAllFavouriteHotels();
-        if (request.getHeader("Accept").contains("application/json")) {
-            Gson gson = new Gson();
-            String jsonData = gson.toJson(hotels);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            out.write(jsonData);
-            out.close();
-        }
-         else {
-            ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
-            ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
-            thymeleafRenderer.setVariable("hotels", hotels);
-            thymeleafRenderer.render("favorite-hotels", out);
+        HttpSession session = request.getSession();
+        if (session.getAttribute("username") == null) {
+            response.sendRedirect("/login");
+        } else {
+            if (request.getHeader("Accept").contains("application/json")) {
+                DatabaseHandler handler = DatabaseHandler.getInstance();
+                String userName = (String) session.getAttribute("username");
+                String userId = handler.getUserByName(userName);
+                PrintWriter out = response.getWriter();
+                List<List<String>> hotels = handler.getAllFavouriteHotels(userId);
+                Gson gson = new Gson();
+                String jsonData = gson.toJson(hotels);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                out.write(jsonData);
+                out.close();
+            } else {
+                DatabaseHandler handler = DatabaseHandler.getInstance();
+                String userName = (String) session.getAttribute("username");
+                String userId = handler.getUserByName(userName);
+                PrintWriter out = response.getWriter();
+                List<List<String>> hotels = handler.getAllFavouriteHotels(userId);
+                System.out.println(hotels.toString());
+                ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
+                ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
+                thymeleafRenderer.setVariable("hotels", hotels);
+                thymeleafRenderer.render("favorite-hotels", out);
+            }
         }
     }
 }
