@@ -137,17 +137,24 @@ public class PreparedStatements {
 
     public static final String DELETE_FROM_EXPEDIA_HISTORY_TABLE = "DELETE FROM expedia_history WHERE userid=?;";
 
-    public static final String GET_LIMITED_REVIEWS = "SELECT * FROM reviews WHERE hotel_id=? limit ? offset ?;";
+    public static final String GET_LIMITED_REVIEWS = "SELECT * FROM reviews WHERE hotel_id=? order by submission_date DESC limit ? offset ?;";
 
-    public static final String CREATE_FAVOURITE_HOTEL_TABLE =
-            "CREATE TABLE favourite_hotels (" +
-                    "hotel_id varchar(64) PRIMARY KEY, " +
-                    "hotel_name VARCHAR(64) NOT NULL);";
+    public static final String CREATE_FAVORITE_HOTEL_TABLE = "CREATE TABLE favorite_hotels (" +
+            "id varchar(64) PRIMARY KEY, " +
+            "name VARCHAR(64) NOT NULL, " +
+            "address VARCHAR(64) NOT NULL, " +
+            "latitude VARCHAR(64) NOT NULL, " +
+            "longitude VARCHAR(64) NOT NULL, " +
+            "city VARCHAR(64) NOT NULL, " +
+            "state VARCHAR(64) NOT NULL, " +
+            "country VARCHAR(64) NOT NULL);";
 
-    public static final String GET_FAVOURITE_HOTEL ="SELECT * FROM favourite_hotels where hotel_id =?";
+    public static final String GET_FAVOURITE_HOTEL ="SELECT * FROM favorite_hotels where id =?";
 
-    public static final String INSERT_INTO_FAVOURITE_HOTELS = "INSERT INTO favourite_hotels(hotel_id, hotel_name)" +
-            "VALUES (?, ?);";
+    public static final String GET_ALL_FAVOURITE_HOTELS ="SELECT * FROM favorite_hotels";
 
+
+    public static final String INSERT_INTO_FAVOURITE_HOTELS = "INSERT INTO favorite_hotels (id, name, address, latitude, longitude, city, state, country) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 }
 
