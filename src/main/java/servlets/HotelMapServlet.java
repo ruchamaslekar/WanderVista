@@ -12,6 +12,11 @@ import java.io.PrintWriter;
 
 public class HotelMapServlet extends HttpServlet {
 
+    /**
+     * Handles GET request to /map
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         double latitude = Double.parseDouble(request.getParameter("lat"));

@@ -1,11 +1,8 @@
 package servlets;
 
-import hotelData.Hotel;
-import org.apache.commons.text.StringEscapeUtils;
 import server.DatabaseHandler;
 import thyemeleaf.ThymeLeafConfig;
 import thyemeleaf.ThymeLeafRenderer;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +13,11 @@ import java.io.PrintWriter;
 import java.util.List;
 
 public class ExpediaHistoryServlet extends HttpServlet {
+    /**
+     * Handles GET request to /expediaHistory
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -41,6 +43,11 @@ public class ExpediaHistoryServlet extends HttpServlet {
 
     }
 
+    /**
+     * Handles POST request to /expediaHistory
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();

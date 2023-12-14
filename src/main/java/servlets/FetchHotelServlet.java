@@ -17,6 +17,11 @@ import java.util.List;
 
 public class FetchHotelServlet extends HttpServlet {
 
+    /**
+     * Handles GET request to /fetchHotels
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();

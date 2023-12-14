@@ -17,6 +17,11 @@ import java.util.List;
 
 public class FavouriteHotelServlet extends HttpServlet {
 
+    /**
+     * Handles GET request to /favouriteHotel
+     * @param req HttpServletRequest
+     * @param resp HttpServletResponse
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
@@ -42,6 +47,12 @@ public class FavouriteHotelServlet extends HttpServlet {
             resp.sendRedirect("/hotelDetails?hotelName=" + hotelName);
         }
     }
+
+    /**
+     * Handles POST request to /favouriteHotel
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
