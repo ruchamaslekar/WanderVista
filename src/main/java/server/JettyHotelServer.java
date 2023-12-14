@@ -29,6 +29,7 @@ public class JettyHotelServer {
 		server.addMapping("/map", HotelMapServlet.class);
 		server.addMapping("/favouriteHotel", FavouriteHotelServlet.class);
 		server.addMapping("/fetchHotels", FetchHotelServlet.class);
+		server.addMapping("/getHotels", GetFavoriteHotels.class);
 		server.addMapping("/logout", LogoutServlet.class);
 		server.start();
 	}
