@@ -657,35 +657,7 @@ public class DatabaseHandler {
             System.out.println(ex);
         }
     }
-    public List<List<String>> getExpediaVisitHistory(String userid) {
-        List<List<String>> visitHistory = new ArrayList<>();
-        PreparedStatement statement;
-        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
-            try {
-                statement = dbConnection.prepareStatement(PreparedStatements.GET_EXPEDIA_HISTORY);
-                statement.setString(1, userid);
-                ResultSet resultSet = statement.executeQuery();
-                while (resultSet.next()) {
-                    String hotelName = resultSet.getString("hotel_name");
-                    String hotelLink = resultSet.getString("hotel_link");
-                    String visitCount = resultSet.getString("visit_count");
-                    List<String> hotelPageVisitDetails = new ArrayList<>();
-                    hotelPageVisitDetails.add(hotelName);
-                    hotelPageVisitDetails.add(hotelLink);
-                    hotelPageVisitDetails.add(visitCount);
-                    visitHistory.add(hotelPageVisitDetails);
-                }
 
-            } catch (Exception ex) {
-                System.out.println(ex);
-                visitHistory = null;
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex);
-            visitHistory = null;
-        }
-        return visitHistory;
-    }
 
     public void insertExpediaHistory(String userid, String hotelId, String hotelName, String hotelLink) {
         PreparedStatement statement;
@@ -761,6 +733,22 @@ public class DatabaseHandler {
         }
 
     }
+    public void deleteFavoriteHotels(String userid) {
+        PreparedStatement statement;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            try {
+                statement = dbConnection.prepareStatement(PreparedStatements.DELETE_FROM_FAVORITE_HOTEL_TABLE);
+                statement.setString(1, userid);
+                statement.executeUpdate();
+                statement.close();
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+
+    }
 
     public Set<Review> getLimitedReviews(String hotelId, String limit, String offset) {
         Set<Review> reviewSet = new HashSet<>();
@@ -807,13 +795,13 @@ public class DatabaseHandler {
         }
     }
 
-    public List<Hotel> getFavouriteHotel(String hotelId){
-        List<Hotel> hotelList =new ArrayList<>();
+    public List<String> getFavouriteHotel(String userid,String hotelId){
+        List<String> hotelList =new ArrayList<>();
         PreparedStatement statement;
-        Hotel hotel = null;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
             statement = dbConnection.prepareStatement(PreparedStatements.GET_FAVOURITE_HOTEL);
             statement.setString(1, hotelId);
+            statement.setString(2, userid);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 hotelId = resultSet.getString("id");
@@ -824,8 +812,16 @@ public class DatabaseHandler {
                 String hotelCity = resultSet.getString("city");
                 String hotelState = resultSet.getString("state");
                 String hotelCountry = resultSet.getString("country");
-                hotel = new Hotel(hotelId, hotelName, hotelAddress, hotelLatitude, hotelLongitude, hotelCity, hotelState, hotelCountry);
-                hotelList.add(hotel);
+                String user = resultSet.getString("user");
+                hotelList.add(hotelId);
+                hotelList.add(hotelName);
+                hotelList.add(hotelAddress);
+                hotelList.add(hotelLatitude);
+                hotelList.add(hotelLongitude);
+                hotelList.add(hotelCity);
+                hotelList.add(hotelState);
+                hotelList.add(hotelCountry);
+                hotelList.add(user);
             }
             statement.close();
         } catch (Exception ex) {
@@ -834,12 +830,12 @@ public class DatabaseHandler {
         return  hotelList;
     }
 
-    public List<Hotel> getAllFavouriteHotels(){
-        List<Hotel> hotelList =new ArrayList<>();
+    public List<List<String>> getAllFavouriteHotels(String userid){
+        List<List<String>> hList = new ArrayList<>();
         PreparedStatement statement;
-        Hotel hotel = null;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
             statement = dbConnection.prepareStatement(PreparedStatements.GET_ALL_FAVOURITE_HOTELS);
+            statement.setString(1, userid);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String hotelId = resultSet.getString("id");
@@ -850,16 +846,56 @@ public class DatabaseHandler {
                 String hotelCity = resultSet.getString("city");
                 String hotelState = resultSet.getString("state");
                 String hotelCountry = resultSet.getString("country");
-                hotel = new Hotel(hotelId, hotelName, hotelAddress, hotelLatitude, hotelLongitude, hotelCity, hotelState, hotelCountry);
-                hotelList.add(hotel);
+                String user = resultSet.getString("user");
+                List<String> hotelList =new ArrayList<>();
+                hotelList.add(hotelId);
+                hotelList.add(hotelName);
+                hotelList.add(hotelAddress);
+                hotelList.add(hotelLatitude);
+                hotelList.add(hotelLongitude);
+                hotelList.add(hotelCity);
+                hotelList.add(hotelState);
+                hotelList.add(hotelCountry);
+                hotelList.add(user);
+                hList.add(hotelList);
             }
             statement.close();
         } catch (Exception ex) {
             System.out.println(ex);
         }
-        return  hotelList;
+        return  hList;
     }
-    public void insertIntoFavouriteHotelsTable(Hotel hotel) throws SQLException {
+
+    public List<List<String>> getExpediaVisitHistory(String userid) {
+        List<List<String>> visitHistory = new ArrayList<>();
+        PreparedStatement statement;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            try {
+                statement = dbConnection.prepareStatement(PreparedStatements.GET_EXPEDIA_HISTORY);
+                statement.setString(1, userid);
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    String hotelName = resultSet.getString("hotel_name");
+                    String hotelLink = resultSet.getString("hotel_link");
+                    String visitCount = resultSet.getString("visit_count");
+                    List<String> hotelPageVisitDetails = new ArrayList<>();
+                    hotelPageVisitDetails.add(hotelName);
+                    hotelPageVisitDetails.add(hotelLink);
+                    hotelPageVisitDetails.add(visitCount);
+                    visitHistory.add(hotelPageVisitDetails);
+                }
+
+            } catch (Exception ex) {
+                System.out.println(ex);
+                visitHistory = null;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            visitHistory = null;
+        }
+        return visitHistory;
+    }
+    public void insertIntoFavouriteHotelsTable(String userid,Hotel hotel) throws SQLException {
         PreparedStatement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
                 try {
@@ -872,6 +908,7 @@ public class DatabaseHandler {
                     statement.setString(6, hotel.getCity());
                     statement.setString(7, hotel.getState());
                     statement.setString(8, hotel.getCountry());
+                    statement.setString(9, userid);
                     statement.executeUpdate();
                     statement.close();
                 } catch (Exception ex) {
