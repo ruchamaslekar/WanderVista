@@ -28,30 +28,16 @@ public class FetchHotelServlet extends HttpServlet {
         if (session.getAttribute("username") == null) {
             response.sendRedirect("/login");
         } else {
-            if (request.getHeader("Accept").contains("application/json")) {
-                DatabaseHandler handler = DatabaseHandler.getInstance();
-                String userName = (String) session.getAttribute("username");
-                String userId = handler.getUserByName(userName);
-                PrintWriter out = response.getWriter();
-                List<List<String>> hotels = handler.getAllFavouriteHotels(userId);
-                Gson gson = new Gson();
-                String jsonData = gson.toJson(hotels);
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                out.write(jsonData);
-                out.close();
-            } else {
-                DatabaseHandler handler = DatabaseHandler.getInstance();
-                String userName = (String) session.getAttribute("username");
-                String userId = handler.getUserByName(userName);
-                PrintWriter out = response.getWriter();
-                List<List<String>> hotels = handler.getAllFavouriteHotels(userId);
-                System.out.println(hotels.toString());
-                ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
-                ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
-                thymeleafRenderer.setVariable("hotels", hotels);
-                thymeleafRenderer.render("favorite-hotels", out);
+            DatabaseHandler handler = DatabaseHandler.getInstance();
+            String userName = (String) session.getAttribute("username");
+            String userId = handler.getUserByName(userName);
+            PrintWriter out = response.getWriter();
+            List<List<String>> hotels = handler.getAllFavouriteHotels(userId);
+            System.out.println(hotels.toString());
+            response.setContentType("text/html");
+            ThymeLeafConfig thymeleafConfig = new ThymeLeafConfig();
+            ThymeLeafRenderer thymeleafRenderer = new ThymeLeafRenderer(thymeleafConfig.templateEngine());
+            thymeleafRenderer.render("favorite-hotels", out);
             }
-        }
     }
 }
