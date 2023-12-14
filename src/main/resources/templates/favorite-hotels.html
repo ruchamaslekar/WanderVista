@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>TravelHelper</title>
+</head>
+<style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+            background-color: white;
+        }
+        .custom-btn-text-color {
+            color: #000;
+        }
+        .custom-jumbotron {
+            width: 100%;
+            height: 800%;
+            padding-left: 50px;
+            padding-top: 20px;
+            border: 1px solid black;
+       }
+        h2 {
+            text-align: center;
+        }
+        .custom-navbar {
+            margin-left: 50 px;
+            padding: 30 px;
+            padding-bottom: 30 px;
+            overflow: hidden;
+            background-color: #6dae67;
+            min-height: 50px;
+            font-size:130%;
+            color: black;
+        }
+        .custom-navbar .navbar-nav > li > a {
+            color: black;
+            transition: background-color 0.3s;
+        }
+        .custom-navbar .navbar-nav > li > a:hover {
+            color: black;
+            background-color: white;
+        }
+        .custom-table {
+            margin-left: -150px;
+            margin-right: -150px;
+        }
+        .table-striped tbody tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+        .table-striped thead {
+            background-color: #6dae67;
+            color: white;
+            text-color: black;
+        }
+        .table-striped th,td {
+            color: black
+        }
+        .btn-success{
+            background-color: #6dae67;
+            color: black;
+        }
+    </style>
+    <body>
+    <nav class="navbar navbar-default custom-navbar">
+        <div class="container-fluid d-flex justify-content-end">
+            <ul class="nav navbar-nav">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/hotelSearch">Hotel Search</a></li>
+                <li><a href="/expediaHistory">Expedia History</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <h2>Favorite Hotels </h2>
+    <form>
+        <div class="container">
+            <div class="table-responsive custom-table">
+                <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Hotel Name</th>
+                    <th>Hotel Id</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Country</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="hotel : ${hotels}">
+                    <td th:text="${hotel.hotelId}"></td>
+                    <td th:text="${hotel.hotelName}"></td>
+                    <td th:text="${hotel.address}"></td>
+                    <td th:text="${hotel.city}"></td>
+                    <td th:text="${hotel.state}"></td>
+                    <td th:text="${hotel.country}"></td>
+                </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
