@@ -69,6 +69,7 @@
                 <li><a href="/home">Home</a></li>
                 <li><a href="/hotelSearch">Hotel Search</a></li>
                 <li><a href="/expediaHistory">Expedia History</a></li>
+                <li><a href="/fetchHotels">Favorite Hotels</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
@@ -76,14 +77,14 @@
         </div>
     </nav>
     <h2>Favorite Hotels </h2>
-    <form>
+    <form method="post" action="/favouriteHotel">
         <div class="container">
             <div class="table-responsive custom-table">
                 <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>Hotel Name</th>
                     <th>Hotel Id</th>
+                    <th>Hotel Name</th>
                     <th>Address</th>
                     <th>City</th>
                     <th>State</th>
@@ -91,18 +92,33 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="hotel : ${hotels}">
-                    <td th:text="${hotel.hotelId}"></td>
-                    <td th:text="${hotel.hotelName}"></td>
-                    <td th:text="${hotel.address}"></td>
-                    <td th:text="${hotel.city}"></td>
-                    <td th:text="${hotel.state}"></td>
-                    <td th:text="${hotel.country}"></td>
+                <tr th:each="hotelList : ${hotels}">
+                    <td th:text="${hotelList[0]}"></td> <!-- Id -->
+                    <td th:text="${hotelList[1]}"></td> <!-- Name -->
+                    <td th:text="${hotelList[2]}"></td> <!-- Address -->
+                    <td th:text="${hotelList[5]}"></td> <!-- Country -->
+                    <td th:text="${hotelList[6]}"></td> <!-- Country -->
+                    <td th:text="${hotelList[7]}"></td> <!-- Country -->
+                    </tr>
                 </tr>
                 </tbody>
                 </table>
+                <div class="form-group">
+                    <input id="delete" class="btn btn-danger" type="submit" value="Clear"></input>
+                </div>
             </div>
         </div>
     </form>
+    <div class="container">
+        <div class="table-responsive custom-table">
+            <form method="get" action="/home">
+                <div class="form-actions">
+                    <div class="form-group">
+                        <input id="back" class="btn btn-success mb-2 custom-btn-text-color border border-primary" type="submit" value="Back"></input>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
