@@ -809,12 +809,12 @@ public class DatabaseHandler {
      * @param  offset String
      */
     public Set<Review> getLimitedReviews(String hotelId, String limit, String offset) {
-        TreeSet<Review> reviews = new TreeSet<>(
+        Set<Review> reviews = new TreeSet<>(
                 (r1, r2) -> {
                     if (r1.getDate().equals(r2.getDate())) {
                         return r1.getReviewId().compareTo(r2.getReviewId());
                     } else {
-                        return r1.getDate().compareTo(r2.getDate());
+                        return r2.getDate().compareTo(r1.getDate());
                     }
                 }
         );
