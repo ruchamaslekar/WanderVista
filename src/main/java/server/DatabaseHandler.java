@@ -801,13 +801,14 @@ public class DatabaseHandler {
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
             System.out.println("dbConnection successful");
             statement = dbConnection.createStatement();
-            statement.executeUpdate(PreparedStatements.CREATE_FAVOURITE_HOTEL_TABLE);
+            statement.executeUpdate(PreparedStatements.CREATE_FAVORITE_HOTEL_TABLE);
         } catch (SQLException ex) {
             System.out.println(ex);
         }
     }
 
-    public Hotel getFavouriteHotel(String hotelId){
+    public List<Hotel> getFavouriteHotel(String hotelId){
+        List<Hotel> hotelList =new ArrayList<>();
         PreparedStatement statement;
         Hotel hotel = null;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -824,26 +825,59 @@ public class DatabaseHandler {
                 String hotelState = resultSet.getString("state");
                 String hotelCountry = resultSet.getString("country");
                 hotel = new Hotel(hotelId, hotelName, hotelAddress, hotelLatitude, hotelLongitude, hotelCity, hotelState, hotelCountry);
+                hotelList.add(hotel);
             }
             statement.close();
         } catch (Exception ex) {
             System.out.println(ex);
         }
-        return  hotel;
+        return  hotelList;
     }
 
-    public void insertIntoFavouriteHotelsTable(String hotelId, String hotelName) throws SQLException {
+    public List<Hotel> getAllFavouriteHotels(){
+        List<Hotel> hotelList =new ArrayList<>();
+        PreparedStatement statement;
+        Hotel hotel = null;
+        try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
+            statement = dbConnection.prepareStatement(PreparedStatements.GET_ALL_FAVOURITE_HOTELS);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String hotelId = resultSet.getString("id");
+                String hotelName = resultSet.getString("name");
+                String hotelAddress = resultSet.getString("address");
+                String hotelLatitude = resultSet.getString("latitude");
+                String hotelLongitude = resultSet.getString("longitude");
+                String hotelCity = resultSet.getString("city");
+                String hotelState = resultSet.getString("state");
+                String hotelCountry = resultSet.getString("country");
+                hotel = new Hotel(hotelId, hotelName, hotelAddress, hotelLatitude, hotelLongitude, hotelCity, hotelState, hotelCountry);
+                hotelList.add(hotel);
+            }
+            statement.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return  hotelList;
+    }
+    public void insertIntoFavouriteHotelsTable(Hotel hotel) throws SQLException {
         PreparedStatement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
                 try {
                     statement = dbConnection.prepareStatement(PreparedStatements.INSERT_INTO_FAVOURITE_HOTELS);
-                    statement.setString(1, hotelId);
-                    statement.setString(2, hotelName);
+                    statement.setString(1, hotel.getHotelId());
+                    statement.setString(2, hotel.getHotelName());
+                    statement.setString(3, hotel.getAddress());
+                    statement.setString(4, hotel.getLatitude());
+                    statement.setString(5, hotel.getLongitude());
+                    statement.setString(6, hotel.getCity());
+                    statement.setString(7, hotel.getState());
+                    statement.setString(8, hotel.getCountry());
                     statement.executeUpdate();
                     statement.close();
                 } catch (Exception ex) {
                     System.out.println(ex);
-                }
+
+            }
         } catch (SQLException ex) {
             System.out.println(ex);
         }
