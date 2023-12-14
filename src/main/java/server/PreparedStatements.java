@@ -149,12 +149,14 @@ public class PreparedStatements {
             "state VARCHAR(64) NOT NULL, " +
             "country VARCHAR(64) NOT NULL);";
 
-    public static final String GET_FAVOURITE_HOTEL ="SELECT * FROM favorite_hotels where id =?";
+    public static final String GET_FAVOURITE_HOTEL ="SELECT * FROM favorite_hotels where id =? AND user=?";
 
-    public static final String GET_ALL_FAVOURITE_HOTELS ="SELECT * FROM favorite_hotels";
+    public static final String GET_ALL_FAVOURITE_HOTELS ="SELECT * FROM favorite_hotels where user =?";
 
 
-    public static final String INSERT_INTO_FAVOURITE_HOTELS = "INSERT INTO favorite_hotels (id, name, address, latitude, longitude, city, state, country) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+    public static final String INSERT_INTO_FAVOURITE_HOTELS = "INSERT INTO favorite_hotels (id, name, address, latitude, longitude, city, state, country,user) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?,?);";
+
+    public static final String DELETE_FROM_FAVORITE_HOTEL_TABLE = "DELETE FROM favorite_hotels WHERE user=?;";
 }
 
