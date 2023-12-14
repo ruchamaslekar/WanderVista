@@ -571,6 +571,9 @@ public class DatabaseHandler {
         return  averageRating;
     }
 
+    /**
+     * Method to create login table
+     */
     public void createLoginTable() {
         Statement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -581,6 +584,11 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method to insert last login details in database
+     * @param userid  String
+     * @param  lastLogin String
+     */
     public void insertLastLoginDetails(String userid, String lastLogin) {
         PreparedStatement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -596,6 +604,12 @@ public class DatabaseHandler {
             System.out.println(ex);
         }
     }
+
+    /**
+     * Method to modify last login details in database
+     * @param userid  String
+     * @param  lastLogin String
+     */
     public void updateLastLoginDetails(String userid, String lastLogin) {
         PreparedStatement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -612,6 +626,10 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method to fetch last login details in database for current user
+     * @param userid  String
+     */
     public String getLastLoginDetails(String userid) {
         PreparedStatement statement;
         String lastLogin = "N/A";
@@ -631,6 +649,10 @@ public class DatabaseHandler {
         }
         return lastLogin;
     }
+    /**
+     * Method to get user id from username
+     * @param username  String
+     */
     public String getUserByName(String username){
         PreparedStatement statement;
         String userid = "";
@@ -648,6 +670,10 @@ public class DatabaseHandler {
         return  userid;
     }
 
+    /**
+     * Method to create expedia history table
+     */
+
     public void createExpediaHistoryTable() {
         Statement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -658,7 +684,13 @@ public class DatabaseHandler {
         }
     }
 
-
+    /**
+     * Method to insert data into expedia history table
+     * @param userid  String
+     * @param  hotelId String
+     * @param  hotelName String
+     * @param hotelLink String
+     */
     public void insertExpediaHistory(String userid, String hotelId, String hotelName, String hotelLink) {
         PreparedStatement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -679,6 +711,11 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method to get count of page user visited
+     * @param userid  String
+     * @param  hotelId String
+     */
     public int getExpediaPageVisitCount(String userid, String hotelId) {
         PreparedStatement statement;
         int visitCount = 0;
@@ -700,6 +737,11 @@ public class DatabaseHandler {
         return visitCount;
     }
 
+    /**
+     * Method to modify  expedia history table
+     * @param userid  String
+     * @param  hotelId String
+     */
     public void updateExpediaHistory(String userid, String hotelId) {
         PreparedStatement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -717,6 +759,11 @@ public class DatabaseHandler {
         }
     }
 
+
+    /**
+     * Method to delete  expedia history table
+     * @param userid  String
+     */
     public void deleteExpediaHistory(String userid) {
         PreparedStatement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -731,8 +778,13 @@ public class DatabaseHandler {
         } catch (SQLException ex) {
             System.out.println(ex);
         }
-
     }
+
+
+    /**
+     * Method to delete favorite hotel table
+     * @param userid  String
+     * */
     public void deleteFavoriteHotels(String userid) {
         PreparedStatement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -750,8 +802,22 @@ public class DatabaseHandler {
 
     }
 
+    /**
+     * Method to display limited number of reviews
+     * @param limit  String
+     * @param  hotelId String
+     * @param  offset String
+     */
     public Set<Review> getLimitedReviews(String hotelId, String limit, String offset) {
-        Set<Review> reviewSet = new HashSet<>();
+        TreeSet<Review> reviews = new TreeSet<>(
+                (r1, r2) -> {
+                    if (r1.getDate().equals(r2.getDate())) {
+                        return r1.getReviewId().compareTo(r2.getReviewId());
+                    } else {
+                        return r1.getDate().compareTo(r2.getDate());
+                    }
+                }
+        );
         PreparedStatement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
             try {
@@ -768,22 +834,23 @@ public class DatabaseHandler {
                     String userName = resultSet.getString("username");
                     String date = resultSet.getString("submission_date");
                     hotelId = resultSet.getString("hotel_id");
-                    reviewSet.add(
+                    reviews.add(
                             new Review(reviewId,rating,title,reviewText,userName,date.trim(),hotelId)
                     );
                 }
             } catch (Exception ex) {
                 System.out.println(ex);
-                reviewSet = null;
             }
         } catch (SQLException ex) {
             System.out.println(ex);
-            reviewSet = null;
         }
-        return reviewSet;
+        return reviews;
 
     }
 
+    /**
+     * Method to create favourite hotel table
+     */
     public void createFavouriteHotelTable() {
         Statement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
@@ -795,6 +862,11 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method to display favorite hotels
+     * @param userid  String
+     * @param  hotelId String
+     */
     public List<String> getFavouriteHotel(String userid,String hotelId){
         List<String> hotelList =new ArrayList<>();
         PreparedStatement statement;
@@ -830,6 +902,10 @@ public class DatabaseHandler {
         return  hotelList;
     }
 
+    /**
+     * Method to display all favorite hotels for current user
+     * @param userid  String
+     */
     public List<List<String>> getAllFavouriteHotels(String userid){
         List<List<String>> hList = new ArrayList<>();
         PreparedStatement statement;
@@ -866,6 +942,10 @@ public class DatabaseHandler {
         return  hList;
     }
 
+    /**
+     * Method to display expedia visit history for current user
+     * @param userid  String
+     */
     public List<List<String>> getExpediaVisitHistory(String userid) {
         List<List<String>> visitHistory = new ArrayList<>();
         PreparedStatement statement;
@@ -895,6 +975,12 @@ public class DatabaseHandler {
         }
         return visitHistory;
     }
+
+    /**
+     * Method to insert data into favorite hotels
+     * @param userid  String
+     * @param  hotel Hotel
+     */
     public void insertIntoFavouriteHotelsTable(String userid,Hotel hotel) throws SQLException {
         PreparedStatement statement;
         try (Connection dbConnection = DriverManager.getConnection(uri, config.getProperty("username"), config.getProperty("password"))) {
