@@ -28,6 +28,7 @@ public class JettyHotelServer {
 		server.addMapping("/expediaHistory", ExpediaHistoryServlet.class);
 		server.addMapping("/map", HotelMapServlet.class);
 		server.addMapping("/favouriteHotel", FavouriteHotelServlet.class);
+		server.addMapping("/fetchHotels", FetchHotelServlet.class);
 		server.addMapping("/logout", LogoutServlet.class);
 		server.start();
 	}
@@ -52,7 +53,6 @@ public class JettyHotelServer {
 		databaseHandler.createReviewsTable();
 		databaseHandler.insertIntoReviewsTable(reviewList);
 		databaseHandler.createLoginTable();
-		databaseHandler.createFavouriteHotelTable();
 		databaseHandler.createFavouriteHotelTable();
 
 	}
